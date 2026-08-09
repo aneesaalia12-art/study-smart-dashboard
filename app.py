@@ -9,7 +9,7 @@ import plotly.graph_objects as go
 
 st.set_page_config(
     page_title="Study Smart Tuition Centre | Management Portal",
-    page_icon="📊",
+    page_icon="🎓",
     layout="wide",
     initial_sidebar_state="expanded"
 )
@@ -21,11 +21,10 @@ st.set_page_config(
 st.markdown(
     """
     <style>
-    @import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap');
-
+    
     /* Global Typography & Background */
     html, body, [class*="css"] {
-        font-family: 'Plus Jakarta Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     }
 
     .stApp {
@@ -415,6 +414,12 @@ st.markdown(
         border-color: #CBD5E1;
     }
 
+
+    /* Plotly text safety for deployed light theme */
+    div[data-testid="stPlotlyChart"] {
+        color: #0F172A !important;
+    }
+
     /* Data Table & Expanders */
     [data-testid="stExpander"] {
         background: #FFFFFF;
@@ -607,79 +612,79 @@ def render_kpi(label, value, accent="#2563EB", subtext=None):
     )
 
 
-def modern_chart(fig, height=360):
-    """
-    Apply the Study Smart corporate Plotly theme.
-
-    Important:
-    - Does not create an empty Plotly layout title.
-      This prevents the word "undefined" from appearing on charts
-      such as go.Indicator gauges.
-    - Legends are positioned below the plot to avoid title overlap.
-    """
-
-    existing_title = None
-    try:
-        existing_title = fig.layout.title.text
-    except Exception:
-        existing_title = None
-
+def modern_chart(fig, height=360, show_legend=True):
+    """Apply a deployment-safe corporate Plotly theme."""
     fig.update_layout(
         height=height,
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="#FFFFFF",
+        plot_bgcolor="#FFFFFF",
         font=dict(
-            family="Plus Jakarta Sans, -apple-system, sans-serif",
+            family="Segoe UI, Arial, sans-serif",
             color="#475569",
             size=12
         ),
-        margin=dict(l=15, r=15, t=48 if existing_title else 20, b=72),
-        legend=dict(
-            title=None,
-            orientation="h",
-            yanchor="top",
-            y=-0.16,
-            xanchor="left",
-            x=0,
-            font=dict(size=11)
-        ),
+        margin=dict(l=18, r=18, t=54, b=56),
         hoverlabel=dict(
             bgcolor="#0F172A",
             font_size=12,
             font_color="#FFFFFF",
-            font_family="Plus Jakarta Sans"
+            font_family="Segoe UI"
         ),
-        colorway=CORPORATE_PALETTE
+        colorway=CORPORATE_PALETTE,
+        showlegend=show_legend
     )
 
-    if existing_title:
+    # Never create an empty title object that can render as 'undefined'
+    title_text = ""
+    try:
+        raw_title = fig.layout.title.text
+        if isinstance(raw_title, str):
+            title_text = raw_title.strip()
+    except Exception:
+        title_text = ""
+
+    if title_text:
         fig.update_layout(
             title=dict(
-                text=existing_title,
-                font=dict(
-                    size=15,
-                    color="#0F172A",
-                    family="Plus Jakarta Sans"
-                ),
-                x=0.01,
-                xanchor="left"
+                text=title_text,
+                font=dict(size=15, color="#0F172A", family="Segoe UI"),
+                x=0.02,
+                xanchor="left",
+                y=0.97,
+                yanchor="top"
             )
         )
     else:
         fig.update_layout(title_text="")
+
+    if show_legend:
+        fig.update_layout(
+            legend=dict(
+                title=None,
+                orientation="h",
+                yanchor="top",
+                y=-0.12,
+                xanchor="left",
+                x=0,
+                font=dict(size=11, color="#475569"),
+                bgcolor="rgba(0,0,0,0)"
+            )
+        )
 
     try:
         fig.update_xaxes(
             showgrid=False,
             zeroline=False,
             linecolor="#E2E8F0",
-            tickfont=dict(color="#64748B", size=11)
+            tickfont=dict(color="#64748B", size=11),
+            title_font=dict(color="#64748B", size=11)
         )
         fig.update_yaxes(
             gridcolor="#F1F5F9",
             zeroline=False,
             linecolor="#E2E8F0",
-            tickfont=dict(color="#64748B", size=11)
+            tickfont=dict(color="#64748B", size=11),
+            title_font=dict(color="#64748B", size=11)
         )
     except Exception:
         pass
@@ -1174,14 +1179,20 @@ elif st.session_state.page == "Executive Management":
         st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
     with col2:
+        st.markdown("#### Attendance Performance")
+        st.caption("Overall attendance benchmark for the selected view.")
+
         fig = go.Figure(
             go.Indicator(
                 mode="gauge+number",
                 value=attendance_rate,
                 number={"suffix": "%", "font": {"size": 28, "color": "#0F172A"}},
-                title={"text": "Attendance Performance", "font": {"size": 14, "color": "#0F172A"}},
                 gauge={
-                    "axis": {"range": [0, 100], "tickcolor": "#64748B"},
+                    "axis": {
+                        "range": [0, 100],
+                        "tickcolor": "#64748B",
+                        "tickfont": {"color": "#64748B"}
+                    },
                     "bar": {"color": "#2563EB"},
                     "steps": [
                         {"range": [0, 75], "color": "#FEE2E2"},
@@ -1191,11 +1202,12 @@ elif st.session_state.page == "Executive Management":
                 }
             )
         )
-        fig = modern_chart(fig, height=360)
         fig.update_layout(
-            title_text="",
-            margin=dict(l=20, r=20, t=18, b=18),
-            showlegend=False
+            height=330,
+            paper_bgcolor="#FFFFFF",
+            margin=dict(l=18, r=18, t=10, b=18),
+            showlegend=False,
+            font=dict(family="Segoe UI, Arial, sans-serif", color="#475569")
         )
         st.plotly_chart(
             fig,
@@ -1380,15 +1392,17 @@ elif st.session_state.page == "Academic Manager":
                 title=None,
                 orientation="h",
                 yanchor="top",
-                y=-0.10,
+                y=-0.08,
                 xanchor="center",
                 x=0.5,
-                font=dict(size=11)
+                font=dict(size=11, color="#475569"),
+                bgcolor="rgba(255,255,255,0)"
             )
         )
         fig.update_traces(
             textposition="inside",
             textinfo="percent",
+            textfont=dict(color="#0F172A", size=12),
             hovertemplate="<b>%{label}</b><br>Sessions: %{value}<br>Share: %{percent}<extra></extra>"
         )
 
@@ -1485,10 +1499,11 @@ elif st.session_state.page == "Finance Manager":
                 title=None,
                 orientation="h",
                 yanchor="top",
-                y=-0.18,
+                y=-0.14,
                 xanchor="left",
                 x=0,
-                font=dict(size=11)
+                font=dict(size=11, color="#475569"),
+                bgcolor="rgba(255,255,255,0)"
             ),
             xaxis_title="Month",
             yaxis_title="Amount (RM)"
@@ -1526,15 +1541,17 @@ elif st.session_state.page == "Finance Manager":
                 title=None,
                 orientation="h",
                 yanchor="top",
-                y=-0.10,
+                y=-0.08,
                 xanchor="center",
                 x=0.5,
-                font=dict(size=11)
+                font=dict(size=11, color="#475569"),
+                bgcolor="rgba(255,255,255,0)"
             )
         )
         fig.update_traces(
             textposition="inside",
             textinfo="percent",
+            textfont=dict(color="#0F172A", size=12),
             hovertemplate="<b>%{label}</b><br>Transactions: %{value}<br>Share: %{percent}<extra></extra>"
         )
 
@@ -1573,10 +1590,11 @@ elif st.session_state.page == "Finance Manager":
             title=None,
             orientation="h",
             yanchor="top",
-            y=-0.16,
+            y=-0.12,
             xanchor="left",
             x=0,
-            font=dict(size=11)
+            font=dict(size=11, color="#475569"),
+            bgcolor="rgba(255,255,255,0)"
         ),
         xaxis_title="Branch",
         yaxis_title="Amount (RM)"
@@ -1824,5 +1842,5 @@ if st.session_state.page != "Home":
 
 st.write("")
 st.caption(
-    "Study Smart Tuition Centre • Internal Management Portal"
+    "Study Smart Tuition Centre • Management Portal"
 )
