@@ -420,6 +420,42 @@ st.markdown(
         color: #0F172A !important;
     }
 
+
+    /* Finance legends: rendered as HTML instead of Plotly for cloud-safe visibility */
+    .finance-legend {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 18px;
+        margin: 2px 0 10px 2px;
+        color: #334155 !important;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .finance-legend-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: #334155 !important;
+    }
+
+    .finance-legend-dot {
+        width: 11px;
+        height: 11px;
+        border-radius: 2px;
+        display: inline-block;
+        flex: 0 0 11px;
+    }
+
+    .finance-legend-dot.collected { background: #10B981; }
+    .finance-legend-dot.outstanding { background: #EF4444; }
+    .finance-legend-dot.paid { background: #10B981; }
+    .finance-legend-dot.overdue { background: #F59E0B; }
+    .finance-legend-dot.revenue { background: #2563EB; }
+    .finance-legend-dot.branch-outstanding { background: #F59E0B; }
+
+
     /* Data Table & Expanders */
     [data-testid="stExpander"] {
         background: #FFFFFF;
@@ -1482,6 +1518,19 @@ elif st.session_state.page == "Finance Manager":
 
         st.markdown("#### Monthly Cash Collection")
         st.caption("Collected fees compared with outstanding balances by month.")
+        st.markdown(
+            """
+            <div class="finance-legend">
+                <span class="finance-legend-item">
+                    <span class="finance-legend-dot collected"></span>Collected
+                </span>
+                <span class="finance-legend-item">
+                    <span class="finance-legend-dot outstanding"></span>Outstanding
+                </span>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
         fig = px.bar(
             monthly_finance,
@@ -1491,22 +1540,22 @@ elif st.session_state.page == "Finance Manager":
             color_discrete_sequence=["#10B981", "#EF4444"]
         )
 
-        fig = modern_chart(fig, height=360)
+        fig = modern_chart(fig, height=340, show_legend=False)
         fig.update_layout(
             title_text="",
-            margin=dict(l=18, r=18, t=12, b=78),
-            legend=dict(
-                title=None,
-                orientation="h",
-                yanchor="top",
-                y=-0.14,
-                xanchor="left",
-                x=0,
-                font=dict(size=11, color="#475569"),
-                bgcolor="rgba(255,255,255,0)"
-            ),
+            margin=dict(l=18, r=18, t=8, b=45),
+            showlegend=False,
             xaxis_title="Month",
             yaxis_title="Amount (RM)"
+        )
+        fig.update_xaxes(
+            tickfont=dict(color="#475569", size=11),
+            title_font=dict(color="#475569", size=12)
+        )
+        fig.update_yaxes(
+            tickfont=dict(color="#475569", size=11),
+            title_font=dict(color="#475569", size=12),
+            gridcolor="#E2E8F0"
         )
 
         st.plotly_chart(
@@ -1524,6 +1573,22 @@ elif st.session_state.page == "Finance Manager":
 
         st.markdown("#### Payment Settlement Status")
         st.caption("Distribution of paid, outstanding and overdue payment records.")
+        st.markdown(
+            """
+            <div class="finance-legend">
+                <span class="finance-legend-item">
+                    <span class="finance-legend-dot paid"></span>Paid
+                </span>
+                <span class="finance-legend-item">
+                    <span class="finance-legend-dot overdue"></span>Overdue
+                </span>
+                <span class="finance-legend-item">
+                    <span class="finance-legend-dot outstanding"></span>Outstanding
+                </span>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
 
         fig = px.pie(
             payment_status,
@@ -1533,20 +1598,11 @@ elif st.session_state.page == "Finance Manager":
             color_discrete_sequence=["#10B981", "#F59E0B", "#EF4444"]
         )
 
-        fig = modern_chart(fig, height=360)
+        fig = modern_chart(fig, height=340, show_legend=False)
         fig.update_layout(
             title_text="",
-            margin=dict(l=10, r=10, t=12, b=76),
-            legend=dict(
-                title=None,
-                orientation="h",
-                yanchor="top",
-                y=-0.08,
-                xanchor="center",
-                x=0.5,
-                font=dict(size=11, color="#475569"),
-                bgcolor="rgba(255,255,255,0)"
-            )
+            margin=dict(l=10, r=10, t=4, b=10),
+            showlegend=False
         )
         fig.update_traces(
             textposition="inside",
@@ -1573,6 +1629,19 @@ elif st.session_state.page == "Finance Manager":
 
     st.markdown("#### Financial Performance by Branch")
     st.caption("Compare collected revenue and outstanding balances across branches.")
+    st.markdown(
+        """
+        <div class="finance-legend">
+            <span class="finance-legend-item">
+                <span class="finance-legend-dot revenue"></span>Revenue
+            </span>
+            <span class="finance-legend-item">
+                <span class="finance-legend-dot branch-outstanding"></span>Outstanding
+            </span>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
 
     fig = px.bar(
         finance_branch,
@@ -1582,22 +1651,22 @@ elif st.session_state.page == "Finance Manager":
         color_discrete_sequence=["#2563EB", "#F59E0B"]
     )
 
-    fig = modern_chart(fig, height=390)
+    fig = modern_chart(fig, height=390, show_legend=False)
     fig.update_layout(
         title_text="",
-        margin=dict(l=18, r=18, t=12, b=72),
-        legend=dict(
-            title=None,
-            orientation="h",
-            yanchor="top",
-            y=-0.12,
-            xanchor="left",
-            x=0,
-            font=dict(size=11, color="#475569"),
-            bgcolor="rgba(255,255,255,0)"
-        ),
+        margin=dict(l=18, r=18, t=8, b=52),
+        showlegend=False,
         xaxis_title="Branch",
         yaxis_title="Amount (RM)"
+    )
+    fig.update_xaxes(
+        tickfont=dict(color="#475569", size=11),
+        title_font=dict(color="#475569", size=12)
+    )
+    fig.update_yaxes(
+        tickfont=dict(color="#475569", size=11),
+        title_font=dict(color="#475569", size=12),
+        gridcolor="#E2E8F0"
     )
 
     st.plotly_chart(
