@@ -4,66 +4,473 @@ import plotly.express as px
 import plotly.graph_objects as go
 
 # =========================================================
-# PAGE CONFIGURATION
+# PAGE CONFIG
 # =========================================================
 
 st.set_page_config(
-    page_title="Study Smart BI Dashboard",
-    page_icon="🎓",
+    page_title="Study Smart BI",
+    page_icon="🍀",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
 # =========================================================
-# CUSTOM CSS
+# DESIGN SYSTEM
 # =========================================================
 
 st.markdown(
     """
     <style>
-    html, body, [class*="css"] {font-family: "Inter", "Segoe UI", sans-serif;}
-    .stApp {
-        background: radial-gradient(circle at top right, rgba(37,99,235,0.07), transparent 28%), linear-gradient(180deg,#f7f9fc 0%,#eef3f8 100%);
-        color:#172033;
+    html, body, [class*="css"] {
+        font-family: "Inter", "Segoe UI", sans-serif;
     }
-    .block-container {padding-top:1.4rem;padding-bottom:3rem;max-width:1550px;}
-    [data-testid="stSidebar"] {background:linear-gradient(180deg,#0A3A6E 0%,#082F59 58%,#062744 100%);border-right:1px solid rgba(255,255,255,.08);}
-    [data-testid="stSidebar"] > div:first-child {padding-top:1rem;}
-    [data-testid="stSidebar"] * {color:#F7FBFF;}
-    [data-testid="stSidebar"] h1,[data-testid="stSidebar"] h2,[data-testid="stSidebar"] h3 {color:white;font-weight:750;}
-    [data-testid="stSidebar"] [data-baseweb="select"] > div {background:rgba(255,255,255,.97);border:1px solid rgba(255,255,255,.20);border-radius:12px;min-height:44px;}
-    [data-testid="stSidebar"] [data-baseweb="select"] * {color:#172033 !important;}
-    h1 {font-size:2.35rem !important;font-weight:760 !important;letter-spacing:-.035em;color:#172033;margin-bottom:.15rem !important;}
-    h2 {font-weight:720 !important;letter-spacing:-.02em;}
-    .dashboard-label {display:inline-flex;align-items:center;padding:6px 11px;border-radius:999px;background:#EAF2FF;color:#1D64C8;font-size:11px;font-weight:800;letter-spacing:.14em;margin-bottom:10px;}
-    .dashboard-subtitle {color:#718096;font-size:1.02rem;margin-top:-2px;margin-bottom:18px;}
-    .section-title {font-size:20px;font-weight:700;margin-top:8px;margin-bottom:8px;}
-    [data-testid="stMetric"] {background:linear-gradient(145deg,rgba(255,255,255,.99),rgba(247,250,255,.98));border:1px solid #DFE7F1;padding:19px 21px;border-radius:18px;min-height:136px;box-shadow:0 8px 24px rgba(15,43,77,.06),0 2px 6px rgba(15,43,77,.04);transition:transform .20s ease,box-shadow .20s ease,border-color .20s ease;}
-    [data-testid="stMetric"]:hover {transform:translateY(-3px);box-shadow:0 14px 34px rgba(15,43,77,.10),0 4px 10px rgba(15,43,77,.05);border-color:#BFD0E4;}
-    [data-testid="stMetricLabel"] {font-size:.88rem;font-weight:650;color:#667085;}
-    [data-testid="stMetricValue"] {font-size:1.9rem;font-weight:760;color:#172033;letter-spacing:-.03em;}
-    div[data-testid="stPlotlyChart"] {background:rgba(255,255,255,.97);border:1px solid #DFE7F1;border-radius:18px;padding:12px;box-shadow:0 8px 24px rgba(15,43,77,.05);overflow:hidden;}
-    [data-testid="stExpander"] {background:rgba(255,255,255,.96);border:1px solid #DFE7F1;border-radius:14px;box-shadow:0 5px 18px rgba(15,43,77,.04);}
-    [data-testid="stDataFrame"] {border-radius:12px;overflow:hidden;border:1px solid #E2E8F0;}
-    .stDownloadButton > button {background:linear-gradient(135deg,#0D5CC7,#0A3F8F);color:white;border:none;border-radius:12px;padding:.70rem 1.1rem;font-weight:650;box-shadow:0 8px 20px rgba(13,92,199,.18);transition:all .20s ease;}
-    .stDownloadButton > button:hover {transform:translateY(-2px);box-shadow:0 12px 28px rgba(13,92,199,.25);}
-    hr {border:none;border-top:1px solid #DFE7F1;margin:1.55rem 0;}
-    ::-webkit-scrollbar {width:8px;height:8px;}
-    ::-webkit-scrollbar-track {background:transparent;}
-    ::-webkit-scrollbar-thumb {background:#C5D0DE;border-radius:10px;}
-    footer {visibility:hidden;}
+
+    .stApp {
+        background:
+            radial-gradient(circle at top right, rgba(59,130,246,0.07), transparent 28%),
+            linear-gradient(180deg, #F7F9FC 0%, #EEF3F8 100%);
+        color: #172033;
+    }
+
+    .block-container {
+        padding-top: 1.15rem;
+        padding-bottom: 2.4rem;
+        max-width: 1540px;
+    }
+
+    /* ---------------- SIDEBAR ---------------- */
+
+    [data-testid="stSidebar"] {
+        background: linear-gradient(180deg, #0B2F59 0%, #092A4B 60%, #07233D 100%);
+        border-right: 1px solid rgba(255,255,255,0.08);
+    }
+
+    [data-testid="stSidebar"] > div:first-child {
+        padding-top: 0.55rem;
+    }
+
+    [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
+        gap: 0.35rem !important;
+    }
+
+    [data-testid="stSidebar"] h1,
+    [data-testid="stSidebar"] h2,
+    [data-testid="stSidebar"] h3,
+    [data-testid="stSidebar"] p,
+    [data-testid="stSidebar"] label {
+        color: #F8FBFF !important;
+    }
+
+    .brand-wrap {
+        padding: 5px 2px 12px 2px;
+    }
+
+    .brand-title {
+        font-size: 24px;
+        font-weight: 800;
+        letter-spacing: -0.45px;
+        color: white;
+    }
+
+    .brand-subtitle {
+        margin-top: 5px;
+        font-size: 11px;
+        letter-spacing: 1.9px;
+        font-weight: 750;
+        color: #ACC5DF;
+    }
+
+    .side-section {
+        margin-top: 13px;
+        margin-bottom: 8px;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 1.65px;
+        color: #AFC6DF;
+    }
+
+    [data-testid="stSidebar"] hr {
+        margin: 0.75rem 0 !important;
+        border-color: rgba(255,255,255,0.09) !important;
+    }
+
+    /* Radio navigation */
+    [data-testid="stSidebar"] [data-testid="stRadio"] > label {
+        display: none !important;
+    }
+
+    [data-testid="stSidebar"] [role="radiogroup"] {
+        gap: 0.12rem !important;
+    }
+
+    [data-testid="stSidebar"] [role="radiogroup"] label {
+        padding: 0.42rem 0.48rem !important;
+        border-radius: 10px !important;
+        transition: all 0.16s ease !important;
+    }
+
+    [data-testid="stSidebar"] [role="radiogroup"] label:hover {
+        background: rgba(255,255,255,0.08) !important;
+        transform: translateX(2px);
+    }
+
+    [data-testid="stSidebar"] [data-testid="stRadio"] span,
+    [data-testid="stSidebar"] [data-testid="stRadio"] p {
+        color: #FFFFFF !important;
+        -webkit-text-fill-color: #FFFFFF !important;
+        font-weight: 600 !important;
+        opacity: 1 !important;
+    }
+
+    /* Selectboxes */
+    [data-testid="stSidebar"] [data-testid="stSelectbox"] {
+        margin-bottom: 0.18rem !important;
+    }
+
+    [data-testid="stSidebar"] [data-baseweb="select"] > div {
+        min-height: 42px !important;
+        border-radius: 10px !important;
+        background: #FFFFFF !important;
+        border: 1px solid #D7E1EC !important;
+        box-shadow: none !important;
+        transition: all 0.15s ease !important;
+    }
+
+    [data-testid="stSidebar"] [data-baseweb="select"] span,
+    [data-testid="stSidebar"] [data-baseweb="select"] input,
+    [data-testid="stSidebar"] [data-baseweb="select"] div {
+        color: #172033 !important;
+        -webkit-text-fill-color: #172033 !important;
+        opacity: 1 !important;
+    }
+
+    [data-testid="stSidebar"] [data-baseweb="select"] svg {
+        fill: #667085 !important;
+        color: #667085 !important;
+    }
+
+    [data-testid="stSidebar"] [data-baseweb="select"] > div:hover {
+        border-color: #94B4D4 !important;
+        transform: translateY(-1px);
+    }
+
+    [data-testid="stSidebar"] [data-baseweb="select"] > div:focus-within {
+        border-color: #3B82F6 !important;
+        box-shadow: 0 0 0 2px rgba(59,130,246,0.12) !important;
+    }
+
+    div[role="listbox"] {
+        background: white !important;
+        border: 1px solid #D9E3EE !important;
+        border-radius: 10px !important;
+        box-shadow: 0 14px 30px rgba(15,43,77,0.16) !important;
+    }
+
+    div[role="option"], li[role="option"] {
+        background: white !important;
+        color: #172033 !important;
+        -webkit-text-fill-color: #172033 !important;
+    }
+
+    div[role="option"]:hover, li[role="option"]:hover {
+        background: #EEF5FD !important;
+    }
+
+    [data-testid="stSidebar"] .stButton > button {
+        width: 100%;
+        min-height: 38px;
+        border-radius: 10px;
+        color: #FFFFFF;
+        background: rgba(255,255,255,0.07);
+        border: 1px solid rgba(255,255,255,0.16);
+        font-weight: 650;
+        transition: all 0.16s ease;
+    }
+
+    [data-testid="stSidebar"] .stButton > button:hover {
+        background: rgba(255,255,255,0.13);
+        border-color: rgba(255,255,255,0.28);
+        transform: translateY(-1px);
+    }
+/* ---------------- HOME ---------------- */
+
+    .hero {
+        padding: 28px 30px;
+        border-radius: 22px;
+        background:
+            linear-gradient(135deg, rgba(11,47,89,0.98), rgba(20,83,145,0.94));
+        box-shadow: 0 16px 40px rgba(11,47,89,0.16);
+        margin-bottom: 18px;
+    }
+
+    .hero-kicker {
+        color: #BCD8F3;
+        font-size: 11px;
+        font-weight: 800;
+        letter-spacing: 1.7px;
+        margin-bottom: 8px;
+    }
+
+    .hero-title {
+        color: #FFFFFF;
+        font-size: 34px;
+        font-weight: 800;
+        letter-spacing: -0.8px;
+        margin: 0;
+    }
+
+    .hero-sub {
+        color: #D5E6F6;
+        font-size: 15px;
+        margin-top: 9px;
+        max-width: 720px;
+        line-height: 1.55;
+    }
+
+    .home-section-title {
+        margin-top: 18px;
+        margin-bottom: 8px;
+        color: #172033;
+        font-size: 20px;
+        font-weight: 750;
+    }
+
+    .role-card {
+        background: rgba(255,255,255,0.98);
+        border: 1px solid #DFE7F1;
+        border-radius: 16px;
+        padding: 18px 18px 16px 18px;
+        min-height: 150px;
+        box-shadow: 0 7px 20px rgba(15,43,77,0.045);
+        transition: all 0.18s ease;
+    }
+
+    .role-card:hover {
+        transform: translateY(-3px);
+        border-color: #C6D6E7;
+        box-shadow: 0 14px 28px rgba(15,43,77,0.08);
+    }
+
+    .role-icon {
+        font-size: 24px;
+        margin-bottom: 8px;
+    }
+
+    .role-title {
+        color: #172033;
+        font-size: 16px;
+        font-weight: 750;
+        margin-bottom: 4px;
+    }
+
+    .role-desc {
+        color: #667085;
+        font-size: 12px;
+        line-height: 1.45;
+    }
+
+    /* ---------------- MAIN DASHBOARD ---------------- */
+
+    h1 {
+        font-size: 2.18rem !important;
+        font-weight: 780 !important;
+        letter-spacing: -0.04em;
+        color: #172033;
+        margin-bottom: 0.1rem !important;
+    }
+
+    .dashboard-label {
+        display: inline-flex;
+        padding: 6px 10px;
+        border-radius: 999px;
+        background: #EAF2FF;
+        color: #1D64C8;
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 0.14em;
+        margin-bottom: 8px;
+    }
+
+    .dashboard-subtitle {
+        color: #718096;
+        font-size: 0.99rem;
+        margin-top: -2px;
+        margin-bottom: 13px;
+    }
+
+    .context-bar {
+        margin-top: 6px;
+        margin-bottom: 14px;
+        padding: 9px 12px;
+        border-radius: 11px;
+        background: rgba(255,255,255,0.75);
+        border: 1px solid #E1E8F0;
+        color: #667085;
+        font-size: 12px;
+    }
+
+    [data-testid="stMetric"] {
+        min-height: 124px;
+        padding: 18px 20px;
+        border-radius: 16px;
+        background: linear-gradient(145deg, #FFFFFF, #F8FBFF);
+        border: 1px solid #DFE7F1;
+        box-shadow:
+            0 8px 22px rgba(15,43,77,0.05),
+            0 2px 6px rgba(15,43,77,0.03);
+        transition: all 0.18s ease;
+    }
+
+    [data-testid="stMetric"]:hover {
+        transform: translateY(-3px);
+        border-color: #C2D3E5;
+        box-shadow: 0 14px 30px rgba(15,43,77,0.09);
+    }
+
+    [data-testid="stMetricLabel"] {
+        font-size: 0.86rem;
+        font-weight: 650;
+        color: #667085;
+    }
+
+    [data-testid="stMetricValue"] {
+        font-size: 1.84rem;
+        font-weight: 760;
+        letter-spacing: -0.03em;
+        color: #172033;
+    }
+
+    div[data-testid="stPlotlyChart"] {
+        padding: 10px;
+        border-radius: 16px;
+        background: rgba(255,255,255,0.98);
+        border: 1px solid #DFE7F1;
+        box-shadow: 0 7px 20px rgba(15,43,77,0.045);
+        overflow: hidden;
+        transition: all 0.18s ease;
+    }
+
+    div[data-testid="stPlotlyChart"]:hover {
+        border-color: #C9D8E7;
+        box-shadow: 0 12px 28px rgba(15,43,77,0.08);
+    }
+
+    [data-testid="stExpander"] {
+        background: rgba(255,255,255,0.97);
+        border: 1px solid #DFE7F1;
+        border-radius: 12px;
+    }
+
+    [data-testid="stDataFrame"] {
+        border-radius: 12px;
+        overflow: hidden;
+        border: 1px solid #E2E8F0;
+    }
+
+    .stDownloadButton > button {
+        background: linear-gradient(135deg, #0D5CC7, #0A3F8F);
+        color: white;
+        border: none;
+        border-radius: 10px;
+        padding: 0.68rem 1rem;
+        font-weight: 650;
+        box-shadow: 0 8px 18px rgba(13,92,199,0.16);
+    }
+
+    hr {
+        border: none;
+        border-top: 1px solid #DFE7F1;
+        margin: 1rem 0;
+    }
+
+
+    /* ===== SIDEBAR ACTIONS & SYSTEM ===== */
+    [data-testid="stSidebar"] .stButton > button {
+        min-height: 36px !important;
+        padding: 0.45rem 0.75rem !important;
+        font-size: 0.82rem !important;
+        border-radius: 9px !important;
+        background: rgba(255,255,255,0.07) !important;
+        color: #F8FBFF !important;
+        border: 1px solid rgba(255,255,255,0.14) !important;
+        box-shadow: none !important;
+    }
+
+    [data-testid="stSidebar"] .stButton > button:hover {
+        background: rgba(255,255,255,0.12) !important;
+        border-color: rgba(255,255,255,0.24) !important;
+        transform: translateY(-1px);
+    }
+
+    .system-card {
+        margin-top: 0.65rem;
+        padding: 0.75rem 0.8rem;
+        border-radius: 12px;
+        background: rgba(255,255,255,0.055);
+        border: 1px solid rgba(255,255,255,0.10);
+    }
+
+    .system-label {
+        font-size: 10px;
+        font-weight: 800;
+        letter-spacing: 1.4px;
+        color: #9EBAD6;
+        margin-bottom: 7px;
+    }
+
+    .system-status-row {
+        display: flex;
+        align-items: center;
+        gap: 7px;
+        margin-bottom: 7px;
+    }
+
+    .status-dot {
+        width: 8px;
+        height: 8px;
+        border-radius: 50%;
+        background: #35D07F;
+        box-shadow: 0 0 0 4px rgba(53,208,127,0.10);
+        display: inline-block;
+    }
+
+    .system-status-text {
+        color: #E9FFF3;
+        font-size: 12px;
+        font-weight: 700;
+    }
+
+    .system-name {
+        color: #FFFFFF;
+        font-size: 12px;
+        font-weight: 700;
+        margin-top: 2px;
+    }
+
+    .system-meta {
+        color: #AFC6DF;
+        font-size: 11px;
+        margin-top: 2px;
+    }
+
+    [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
+        padding-bottom: 0.8rem !important;
+    }
+
+    footer {
+        visibility: hidden;
+    }
     </style>
     """,
     unsafe_allow_html=True
 )
 
 # =========================================================
-# LOAD DATA
+# DATA
 # =========================================================
 
 @st.cache_data
 def load_data():
-
     file_path = "StudySmart_DummyDataset.xlsx"
 
     data = {
@@ -77,56 +484,29 @@ def load_data():
         "exam_scores": pd.read_excel(file_path, sheet_name="Exam Scores"),
         "inventory": pd.read_excel(file_path, sheet_name="Inventory"),
         "marketing": pd.read_excel(file_path, sheet_name="Marketing"),
-        "online_sessions": pd.read_excel(
-            file_path,
-            sheet_name="Online Sessions"
-        )
+        "online_sessions": pd.read_excel(file_path, sheet_name="Online Sessions")
     }
 
-    # Date conversion
     data["students"]["RegistrationDate"] = pd.to_datetime(
-        data["students"]["RegistrationDate"],
-        errors="coerce"
+        data["students"]["RegistrationDate"], errors="coerce"
     )
-
     data["enrolments"]["EnrolmentDate"] = pd.to_datetime(
-        data["enrolments"]["EnrolmentDate"],
-        errors="coerce"
+        data["enrolments"]["EnrolmentDate"], errors="coerce"
     )
-
     data["payments"]["BillingMonth"] = pd.to_datetime(
-        data["payments"]["BillingMonth"],
-        errors="coerce"
+        data["payments"]["BillingMonth"], errors="coerce"
     )
-
     data["payments"]["PaymentDate"] = pd.to_datetime(
-        data["payments"]["PaymentDate"],
-        errors="coerce"
+        data["payments"]["PaymentDate"], errors="coerce"
     )
-
     data["attendance"]["SessionDate"] = pd.to_datetime(
-        data["attendance"]["SessionDate"],
-        errors="coerce"
+        data["attendance"]["SessionDate"], errors="coerce"
     )
-
     data["exam_scores"]["AssessmentDate"] = pd.to_datetime(
-        data["exam_scores"]["AssessmentDate"],
-        errors="coerce"
+        data["exam_scores"]["AssessmentDate"], errors="coerce"
     )
-
-    data["marketing"]["StartDate"] = pd.to_datetime(
-        data["marketing"]["StartDate"],
-        errors="coerce"
-    )
-
-    data["marketing"]["EndDate"] = pd.to_datetime(
-        data["marketing"]["EndDate"],
-        errors="coerce"
-    )
-
     data["online_sessions"]["SessionDate"] = pd.to_datetime(
-        data["online_sessions"]["SessionDate"],
-        errors="coerce"
+        data["online_sessions"]["SessionDate"], errors="coerce"
     )
 
     return data
@@ -146,59 +526,110 @@ inventory = D["inventory"]
 marketing = D["marketing"]
 online_sessions = D["online_sessions"]
 
-# =========================================================
-# LOOKUP MAPS
-# =========================================================
-
-branch_map = dict(
-    zip(
-        branches["BranchID"],
-        branches["BranchName"]
-    )
-)
-
-course_map = dict(
-    zip(
-        courses["CourseID"],
-        courses["CourseName"]
-    )
-)
-
-subject_map = dict(
-    zip(
-        courses["CourseID"],
-        courses["Subject"]
-    )
-)
-
-tutor_map = dict(
-    zip(
-        tutors["TutorID"],
-        tutors["TutorName"]
-    )
-)
+branch_map = dict(zip(branches["BranchID"], branches["BranchName"]))
+course_map = dict(zip(courses["CourseID"], courses["CourseName"]))
+subject_map = dict(zip(courses["CourseID"], courses["Subject"]))
+tutor_map = dict(zip(tutors["TutorID"], tutors["TutorName"]))
 
 # =========================================================
-# MODERN CHART THEME
+# SESSION STATE
 # =========================================================
 
-def modern_chart(fig, height=380):
+if "page" not in st.session_state:
+    st.session_state.page = "Home"
+
+if "branch_filter" not in st.session_state:
+    st.session_state.branch_filter = "All Branches"
+
+if "subject_filter" not in st.session_state:
+    st.session_state.subject_filter = "All Subjects"
+
+if "month_filter" not in st.session_state:
+    st.session_state.month_filter = "All Months"
+
+# =========================================================
+# HELPERS
+# =========================================================
+
+def modern_chart(fig, height=370):
     fig.update_layout(
         height=height,
         paper_bgcolor="rgba(0,0,0,0)",
         plot_bgcolor="rgba(0,0,0,0)",
-        font=dict(family="Inter, Segoe UI, sans-serif", color="#475467", size=13),
-        title=dict(font=dict(size=17, color="#172033"), x=0.02, xanchor="left"),
-        margin=dict(l=25, r=25, t=60, b=30),
-        legend=dict(title=None, orientation="h", yanchor="bottom", y=1.02, xanchor="right", x=1),
-        hoverlabel=dict(bgcolor="white", font_size=13, font_family="Inter")
+        font=dict(
+            family="Inter, Segoe UI, sans-serif",
+            color="#475467",
+            size=12
+        ),
+        title=dict(
+            font=dict(size=16, color="#172033"),
+            x=0.02,
+            xanchor="left"
+        ),
+        margin=dict(l=20, r=20, t=58, b=28),
+        legend=dict(
+            title=None,
+            orientation="h",
+            yanchor="bottom",
+            y=1.04,
+            xanchor="right",
+            x=1,
+            font=dict(size=10)
+        ),
+        hoverlabel=dict(
+            bgcolor="white",
+            font_size=12,
+            font_family="Inter"
+        )
     )
+
     try:
-        fig.update_xaxes(showgrid=False, zeroline=False, linecolor="#DBE4EE", tickfont=dict(color="#667085"))
-        fig.update_yaxes(gridcolor="#EDF2F7", zeroline=False, linecolor="#DBE4EE", tickfont=dict(color="#667085"))
+        fig.update_xaxes(
+            showgrid=False,
+            zeroline=False,
+            linecolor="#D9E3EE",
+            tickfont=dict(color="#667085")
+        )
+        fig.update_yaxes(
+            gridcolor="#EDF2F7",
+            zeroline=False,
+            linecolor="#D9E3EE",
+            tickfont=dict(color="#667085")
+        )
     except Exception:
         pass
+
     return fig
+
+
+def dashboard_header(title, subtitle):
+    st.markdown(
+        '<div class="dashboard-label">STUDY SMART TUITION CENTRE</div>',
+        unsafe_allow_html=True
+    )
+    st.title(title)
+    st.markdown(
+        f'<div class="dashboard-subtitle">{subtitle}</div>',
+        unsafe_allow_html=True
+    )
+    st.markdown(
+        f"""
+        <div class="context-bar">
+            <strong>Branch:</strong> {selected_branch}
+            &nbsp;&nbsp;•&nbsp;&nbsp;
+            <strong>Subject:</strong> {selected_subject}
+            &nbsp;&nbsp;•&nbsp;&nbsp;
+            <strong>Month:</strong> {selected_month}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+
+def set_page(page_name):
+    st.session_state.page = page_name
+    st.rerun()
+
 
 # =========================================================
 # SIDEBAR
@@ -206,87 +637,120 @@ def modern_chart(fig, height=380):
 
 st.sidebar.markdown(
     """
-    <div style="padding:10px 0 20px 0;">
-        <div style="font-size:24px;font-weight:800;letter-spacing:-0.4px;color:white;">🎓 Study Smart</div>
-        <div style="font-size:12px;letter-spacing:1.6px;color:#B8CEE6;margin-top:3px;">TUITION CENTRE</div>
+    <div class="brand-wrap">
+        <div class="brand-title">🎓 Study Smart</div>
+        <div class="brand-subtitle">MANAGEMENT PORTAL</div>
     </div>
     """,
     unsafe_allow_html=True
 )
-st.sidebar.markdown("---")
 
-dashboard_view = st.sidebar.radio(
-    "Stakeholder View",
-    [
-        "Executive Management",
-        "Academic Manager",
-        "Finance Manager",
-        "Branch Manager",
-        "Marketing Manager"
-    ]
+st.sidebar.markdown(
+    '<div class="side-section">MENU</div>',
+    unsafe_allow_html=True
 )
 
-st.sidebar.markdown("---")
-st.sidebar.markdown("### Filters")
+menu_options = [
+    "Home",
+    "Executive Management",
+    "Academic Manager",
+    "Finance Manager",
+    "Branch Manager",
+    "Marketing Manager"
+]
 
-branch_options = (
-    ["All Branches"]
-    + sorted(
-        branches["BranchName"]
-        .dropna()
-        .unique()
-        .tolist()
+default_index = menu_options.index(
+    st.session_state.page if st.session_state.page in menu_options else "Home"
+)
+
+selected_page = st.sidebar.radio(
+    "Navigation",
+    menu_options,
+    index=default_index,
+    label_visibility="collapsed"
+)
+
+if selected_page != st.session_state.page:
+    st.session_state.page = selected_page
+
+# Filters are useful on dashboards, not home
+if st.session_state.page != "Home":
+    st.sidebar.markdown(
+        '<div class="side-section">FILTERS</div>',
+        unsafe_allow_html=True
     )
-)
 
-selected_branch = st.sidebar.selectbox(
-    "Branch",
-    branch_options
-)
-
-subject_options = (
-    ["All Subjects"]
-    + sorted(
-        courses["Subject"]
-        .dropna()
-        .unique()
-        .tolist()
+    branch_options = ["All Branches"] + sorted(
+        branches["BranchName"].dropna().unique().tolist()
     )
-)
-
-selected_subject = st.sidebar.selectbox(
-    "Subject",
-    subject_options
-)
-
-month_options = (
-    ["All Months"]
-    + sorted(
+    subject_options = ["All Subjects"] + sorted(
+        courses["Subject"].dropna().unique().tolist()
+    )
+    month_options = ["All Months"] + sorted(
         payments["BillingMonth"]
         .dropna()
         .dt.strftime("%Y-%m")
         .unique()
         .tolist()
     )
-)
 
-selected_month = st.sidebar.selectbox(
-    "Month",
-    month_options
-)
+    selected_branch = st.sidebar.selectbox(
+        "Branch",
+        branch_options,
+        index=branch_options.index(st.session_state.branch_filter)
+        if st.session_state.branch_filter in branch_options else 0
+    )
+    st.session_state.branch_filter = selected_branch
 
-st.sidebar.markdown("---")
+    selected_subject = st.sidebar.selectbox(
+        "Subject",
+        subject_options,
+        index=subject_options.index(st.session_state.subject_filter)
+        if st.session_state.subject_filter in subject_options else 0
+    )
+    st.session_state.subject_filter = selected_subject
 
-st.sidebar.success(
-    "All operational data sources connected"
-)
+    selected_month = st.sidebar.selectbox(
+        "Month",
+        month_options,
+        index=month_options.index(st.session_state.month_filter)
+        if st.session_state.month_filter in month_options else 0
+    )
+    st.session_state.month_filter = selected_month
 
-st.sidebar.caption(
-    "Source: Study Smart Data Warehouse"
-)
+    st.sidebar.markdown(
+        '<div class="side-section">ACTIONS</div>',
+        unsafe_allow_html=True
+    )
+
+    if st.sidebar.button("↻ Reset Filters", use_container_width=True):
+        st.session_state.branch_filter = "All Branches"
+        st.session_state.subject_filter = "All Subjects"
+        st.session_state.month_filter = "All Months"
+        st.rerun()
+
+    st.sidebar.markdown(
+        """
+        <div class="system-card">
+            <div class="system-label">SYSTEM</div>
+            <div class="system-status-row">
+                <span class="status-dot"></span>
+                <span class="system-status-text">Connected</span>
+            </div>
+            <div class="system-name">Study Smart BI v2.0</div>
+            <div class="system-meta">Data Warehouse</div>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+else:
+    selected_branch = "All Branches"
+    selected_subject = "All Subjects"
+    selected_month = "All Months"
 
 # =========================================================
-# CREATE FILTERED DATA
+# FILTER DATA
 # =========================================================
 
 filtered_students = students.copy()
@@ -299,734 +763,503 @@ filtered_scores = exam_scores.copy()
 filtered_inventory = inventory.copy()
 filtered_online = online_sessions.copy()
 
-# =========================================================
-# BRANCH FILTER
-# =========================================================
-
 selected_branch_id = None
+selected_course_ids = courses["CourseID"].tolist()
 
 if selected_branch != "All Branches":
-
     selected_branch_id = branches.loc[
         branches["BranchName"] == selected_branch,
         "BranchID"
     ].iloc[0]
 
     filtered_students = filtered_students[
-        filtered_students["BranchID"]
-        == selected_branch_id
+        filtered_students["BranchID"] == selected_branch_id
     ]
-
     filtered_tutors = filtered_tutors[
-        filtered_tutors["BranchID"]
-        == selected_branch_id
+        filtered_tutors["BranchID"] == selected_branch_id
     ]
-
     filtered_enrolments = filtered_enrolments[
-        filtered_enrolments["BranchID"]
-        == selected_branch_id
+        filtered_enrolments["BranchID"] == selected_branch_id
     ]
-
     filtered_payments = filtered_payments[
-        filtered_payments["BranchID"]
-        == selected_branch_id
+        filtered_payments["BranchID"] == selected_branch_id
     ]
-
     filtered_attendance = filtered_attendance[
-        filtered_attendance["BranchID"]
-        == selected_branch_id
+        filtered_attendance["BranchID"] == selected_branch_id
     ]
-
     filtered_scores = filtered_scores[
-        filtered_scores["BranchID"]
-        == selected_branch_id
+        filtered_scores["BranchID"] == selected_branch_id
     ]
-
     filtered_inventory = filtered_inventory[
-        filtered_inventory["BranchID"]
-        == selected_branch_id
+        filtered_inventory["BranchID"] == selected_branch_id
     ]
-
     filtered_online = filtered_online[
-        filtered_online["BranchID"]
-        == selected_branch_id
+        filtered_online["BranchID"] == selected_branch_id
     ]
-
-# =========================================================
-# SUBJECT FILTER
-# =========================================================
 
 if selected_subject != "All Subjects":
-
     selected_course_ids = courses.loc[
         courses["Subject"] == selected_subject,
         "CourseID"
     ].tolist()
 
     filtered_courses = filtered_courses[
-        filtered_courses["CourseID"]
-        .isin(selected_course_ids)
+        filtered_courses["CourseID"].isin(selected_course_ids)
     ]
-
     filtered_enrolments = filtered_enrolments[
-        filtered_enrolments["CourseID"]
-        .isin(selected_course_ids)
+        filtered_enrolments["CourseID"].isin(selected_course_ids)
     ]
-
     filtered_payments = filtered_payments[
-        filtered_payments["CourseID"]
-        .isin(selected_course_ids)
+        filtered_payments["CourseID"].isin(selected_course_ids)
     ]
-
     filtered_attendance = filtered_attendance[
-        filtered_attendance["CourseID"]
-        .isin(selected_course_ids)
+        filtered_attendance["CourseID"].isin(selected_course_ids)
     ]
-
     filtered_scores = filtered_scores[
-        filtered_scores["CourseID"]
-        .isin(selected_course_ids)
+        filtered_scores["CourseID"].isin(selected_course_ids)
     ]
-
     filtered_online = filtered_online[
-        filtered_online["CourseID"]
-        .isin(selected_course_ids)
+        filtered_online["CourseID"].isin(selected_course_ids)
     ]
-
-# =========================================================
-# MONTH FILTER
-# =========================================================
 
 if selected_month != "All Months":
-
     filtered_payments = filtered_payments[
-        filtered_payments["BillingMonth"]
-        .dt.strftime("%Y-%m")
-        == selected_month
+        filtered_payments["BillingMonth"].dt.strftime("%Y-%m") == selected_month
     ]
-
     filtered_attendance = filtered_attendance[
-        filtered_attendance["SessionDate"]
-        .dt.strftime("%Y-%m")
-        == selected_month
+        filtered_attendance["SessionDate"].dt.strftime("%Y-%m") == selected_month
     ]
-
     filtered_enrolments = filtered_enrolments[
-        filtered_enrolments["EnrolmentDate"]
-        .dt.strftime("%Y-%m")
-        == selected_month
+        filtered_enrolments["EnrolmentDate"].dt.strftime("%Y-%m") == selected_month
     ]
-
     filtered_online = filtered_online[
-        filtered_online["SessionDate"]
-        .dt.strftime("%Y-%m")
-        == selected_month
+        filtered_online["SessionDate"].dt.strftime("%Y-%m") == selected_month
     ]
 
-# =========================================================
-# SYNC STUDENTS AND TUTORS
-# =========================================================
-
-if (
-    selected_subject != "All Subjects"
-    or selected_month != "All Months"
-):
-
-    valid_student_ids = filtered_enrolments[
-        "StudentID"
-    ].dropna().unique()
+if selected_subject != "All Subjects" or selected_month != "All Months":
+    valid_student_ids = filtered_enrolments["StudentID"].dropna().unique()
+    valid_tutor_ids = filtered_enrolments["TutorID"].dropna().unique()
 
     filtered_students = filtered_students[
-        filtered_students["StudentID"]
-        .isin(valid_student_ids)
+        filtered_students["StudentID"].isin(valid_student_ids)
     ]
-
-    valid_tutor_ids = filtered_enrolments[
-        "TutorID"
-    ].dropna().unique()
-
     filtered_tutors = filtered_tutors[
-        filtered_tutors["TutorID"]
-        .isin(valid_tutor_ids)
+        filtered_tutors["TutorID"].isin(valid_tutor_ids)
     ]
 
 # =========================================================
-# HEADER FUNCTION
+# HOME
 # =========================================================
 
-def dashboard_header(title, subtitle):
-
-    st.markdown(
-        '<div class="dashboard-label">'
-        'BUSINESS INTELLIGENCE'
-        '</div>',
-        unsafe_allow_html=True
-    )
-
-    st.title(title)
-
-    st.markdown(
-        f'<div class="dashboard-subtitle">'
-        f'{subtitle}'
-        f'</div>',
-        unsafe_allow_html=True
-    )
-
-    st.caption(
-        f"Branch: {selected_branch}   |   "
-        f"Subject: {selected_subject}   |   "
-        f"Month: {selected_month}"
-    )
+if st.session_state.page == "Home":
 
     st.markdown(
         """
-        <div style="margin-top:10px;margin-bottom:4px;padding:10px 12px;background:rgba(255,255,255,.72);border:1px solid #E3EAF2;border-radius:12px;color:#667085;font-size:12px;">
-            Live analytical view powered by integrated Study Smart operational data.
+        <div class="hero">
+            <div class="hero-kicker">STUDY SMART TUITION CENTRE</div>
+            <div class="hero-title">Empowering Students. Inspiring Excellence.</div>
+            <div class="hero-sub">
+                Delivering quality tuition programmes through experienced educators,
+                structured learning and continuous student development across our branches.
+            </div>
         </div>
         """,
         unsafe_allow_html=True
     )
 
+    total_students_home = students["StudentID"].nunique()
+    total_revenue_home = payments["PaidAmountRM"].sum()
+    attendance_home = attendance["Present"].mean() * 100
+    total_branches_home = branches["BranchID"].nunique()
+    total_tutors_home = tutors["TutorID"].nunique()
+    total_courses_home = courses["CourseID"].nunique()
+
+    c1, c2, c3 = st.columns(3)
+    c1.metric("Total Students", f"{total_students_home:,}")
+    c2.metric("Total Revenue", f"RM {total_revenue_home:,.0f}")
+    c3.metric("Attendance Rate", f"{attendance_home:.1f}%")
+
+    c4, c5, c6 = st.columns(3)
+    c4.metric("Branches", f"{total_branches_home}")
+    c5.metric("Active Tutors", f"{total_tutors_home}")
+    c6.metric("Courses", f"{total_courses_home}")
+
+    st.markdown(
+        '<div class="home-section-title">Stakeholder Dashboards</div>',
+        unsafe_allow_html=True
+    )
+    st.caption(
+        "Select the dashboard most relevant to your management responsibilities."
+    )
+
+    r1c1, r1c2, r1c3 = st.columns(3)
+
+    with r1c1:
+        st.markdown(
+            """
+            <div class="role-card">
+                <div class="role-icon">👔</div>
+                <div class="role-title">Executive Management</div>
+                <div class="role-desc">
+                    Organisation-wide KPIs, revenue, attendance, branch performance
+                    and course demand.
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        if st.button("Open Executive Dashboard →", use_container_width=True):
+            set_page("Executive Management")
+
+    with r1c2:
+        st.markdown(
+            """
+            <div class="role-card">
+                <div class="role-icon">🎓</div>
+                <div class="role-title">Academic Manager</div>
+                <div class="role-desc">
+                    Academic results, attendance, tutor effectiveness,
+                    learning modes and student support.
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        if st.button("Open Academic Dashboard →", use_container_width=True):
+            set_page("Academic Manager")
+
+    with r1c3:
+        st.markdown(
+            """
+            <div class="role-card">
+                <div class="role-icon">💰</div>
+                <div class="role-title">Finance Manager</div>
+                <div class="role-desc">
+                    Revenue, fee collection, outstanding balances
+                    and branch-level financial performance.
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        if st.button("Open Finance Dashboard →", use_container_width=True):
+            set_page("Finance Manager")
+
+    r2c1, r2c2, r2c3 = st.columns(3)
+
+    with r2c1:
+        st.markdown(
+            """
+            <div class="role-card">
+                <div class="role-icon">🏢</div>
+                <div class="role-title">Branch Manager</div>
+                <div class="role-desc">
+                    Branch operations, course demand, tutor capacity,
+                    revenue and inventory status.
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        if st.button("Open Branch Dashboard →", use_container_width=True):
+            set_page("Branch Manager")
+
+    with r2c2:
+        st.markdown(
+            """
+            <div class="role-card">
+                <div class="role-icon">📈</div>
+                <div class="role-title">Marketing Manager</div>
+                <div class="role-desc">
+                    Campaign effectiveness, acquisition channels,
+                    conversion rate and acquisition cost.
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        if st.button("Open Marketing Dashboard →", use_container_width=True):
+            set_page("Marketing Manager")
+
+    with r2c3:
+        st.markdown(
+            """
+            <div class="role-card">
+                <div class="role-icon">🗄️</div>
+                <div class="role-title">Integrated Data Warehouse</div>
+                <div class="role-desc">
+                    Curated operational data supporting role-based BI analysis
+                    across all five management views.
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+        st.button(
+            "Data Sources Connected ✓",
+            disabled=True,
+            use_container_width=True
+        )
+
 # =========================================================
 # EXECUTIVE MANAGEMENT
 # =========================================================
 
-if dashboard_view == "Executive Management":
+elif st.session_state.page == "Executive Management":
 
     dashboard_header(
-        "Executive Dashboard",
-        "Overview of organisational performance"
+        "Executive Management Dashboard",
+        "Organisation-wide performance and strategic management overview"
     )
 
-    total_students = filtered_students[
-        "StudentID"
-    ].nunique()
-
-    total_enrolments = filtered_enrolments[
-        "EnrolmentID"
-    ].nunique()
-
+    total_students = filtered_students["StudentID"].nunique()
+    total_enrolments = filtered_enrolments["EnrolmentID"].nunique()
     attendance_rate = (
         filtered_attendance["Present"].mean() * 100
-        if not filtered_attendance.empty
-        else 0
+        if not filtered_attendance.empty else 0
     )
+    total_revenue = filtered_payments["PaidAmountRM"].sum()
+    outstanding_fees = filtered_payments["OutstandingAmountRM"].sum()
+    active_tutors = filtered_tutors["TutorID"].nunique()
 
-    total_revenue = filtered_payments[
-        "PaidAmountRM"
-    ].sum()
-
-    outstanding_fees = filtered_payments[
-        "OutstandingAmountRM"
-    ].sum()
-
-    active_tutors = filtered_tutors[
-        "TutorID"
-    ].nunique()
-
-    # KPI CARDS
     c1, c2, c3 = st.columns(3)
-
-    c1.metric(
-        "Total Students",
-        f"{total_students:,}"
-    )
-
-    c2.metric(
-        "Total Enrolments",
-        f"{total_enrolments:,}"
-    )
-
-    c3.metric(
-        "Attendance Rate",
-        f"{attendance_rate:.1f}%"
-    )
+    c1.metric("Total Students", f"{total_students:,}")
+    c2.metric("Total Enrolments", f"{total_enrolments:,}")
+    c3.metric("Attendance Rate", f"{attendance_rate:.1f}%")
 
     c4, c5, c6 = st.columns(3)
-
-    c4.metric(
-        "Total Revenue",
-        f"RM {total_revenue:,.0f}"
-    )
-
-    c5.metric(
-        "Outstanding Fees",
-        f"RM {outstanding_fees:,.0f}"
-    )
-
-    c6.metric(
-        "Active Tutors",
-        f"{active_tutors:,}"
-    )
+    c4.metric("Total Revenue", f"RM {total_revenue:,.0f}")
+    c5.metric("Outstanding Fees", f"RM {outstanding_fees:,.0f}")
+    c6.metric("Active Tutors", f"{active_tutors:,}")
 
     st.markdown("---")
 
-    # REVENUE TREND
     col1, col2 = st.columns([1.5, 1])
 
     with col1:
-
-        revenue_trend = payments.copy()
-
+        rev = payments.copy()
         if selected_branch_id is not None:
-            revenue_trend = revenue_trend[
-                revenue_trend["BranchID"]
-                == selected_branch_id
-            ]
-
+            rev = rev[rev["BranchID"] == selected_branch_id]
         if selected_subject != "All Subjects":
-            revenue_trend = revenue_trend[
-                revenue_trend["CourseID"]
-                .isin(selected_course_ids)
-            ]
+            rev = rev[rev["CourseID"].isin(selected_course_ids)]
 
-        revenue_trend["Month"] = (
-            revenue_trend["BillingMonth"]
-            .dt.strftime("%b")
-        )
-
+        rev["Month"] = rev["BillingMonth"].dt.strftime("%b")
         revenue_monthly = (
-            revenue_trend
-            .groupby("Month")["PaidAmountRM"]
+            rev.groupby("Month")["PaidAmountRM"]
             .sum()
-            .reindex(
-                ["Jan", "Feb", "Mar", "Apr", "May"]
-            )
+            .reindex(["Jan", "Feb", "Mar", "Apr", "May"])
             .fillna(0)
             .reset_index()
         )
 
-        fig_revenue = px.line(
+        fig = px.line(
             revenue_monthly,
             x="Month",
             y="PaidAmountRM",
             markers=True,
-            title="Revenue Trend"
+            title="Revenue Performance"
         )
-
-        fig_revenue.update_layout(
+        fig.update_layout(
             xaxis_title="",
             yaxis_title="Revenue (RM)",
             hovermode="x unified"
         )
+        fig = modern_chart(fig)
+        st.plotly_chart(fig, use_container_width=True)
 
-        fig_revenue = modern_chart(fig_revenue)
-
-
-
-        st.plotly_chart(
-            fig_revenue,
-            use_container_width=True
-        )
-
-    # ATTENDANCE GAUGE
     with col2:
-
-        fig_attendance = go.Figure(
+        fig = go.Figure(
             go.Indicator(
                 mode="gauge+number",
                 value=attendance_rate,
-                number={
-                    "suffix": "%"
-                },
-                title={
-                    "text": "Attendance Performance"
-                },
+                number={"suffix": "%"},
+                title={"text": "Attendance Performance"},
                 gauge={
-                    "axis": {
-                        "range": [0, 100]
-                    },
-                    "bar": {
-                        "color": "#2474D2"
-                    },
+                    "axis": {"range": [0, 100]},
+                    "bar": {"color": "#2474D2"},
                     "steps": [
-                        {
-                            "range": [0, 80],
-                            "color": "#F1F5F9"
-                        },
-                        {
-                            "range": [80, 90],
-                            "color": "#E2E8F0"
-                        },
-                        {
-                            "range": [90, 100],
-                            "color": "#DBEAFE"
-                        }
+                        {"range": [0, 80], "color": "#F1F5F9"},
+                        {"range": [80, 90], "color": "#E2E8F0"},
+                        {"range": [90, 100], "color": "#DBEAFE"}
                     ]
                 }
             )
         )
+        fig = modern_chart(fig, height=370)
+        st.plotly_chart(fig, use_container_width=True)
 
-        fig_attendance.update_layout(
-            height=350
-        )
-
-        fig_attendance = modern_chart(fig_attendance, height=350)
-
-
-
-        st.plotly_chart(
-            fig_attendance,
-            use_container_width=True
-        )
-
-    # BRANCH & COURSE
     col3, col4 = st.columns(2)
 
     with col3:
-
         branch_students = (
-            enrolments
-            .groupby("BranchID")["StudentID"]
+            enrolments.groupby("BranchID")["StudentID"]
             .nunique()
-            .reset_index(
-                name="Students"
-            )
+            .reset_index(name="Students")
         )
+        branch_students["Branch"] = branch_students["BranchID"].map(branch_map)
 
-        branch_students["Branch"] = (
-            branch_students["BranchID"]
-            .map(branch_map)
-        )
-
-        fig_branch = px.bar(
-            branch_students.sort_values(
-                "Students"
-            ),
+        fig = px.bar(
+            branch_students.sort_values("Students"),
             x="Students",
             y="Branch",
             orientation="h",
-            title="Students by Branch"
+            title="Branch Performance Comparison"
         )
-
-        fig_branch = modern_chart(fig_branch)
-
-
-
-        st.plotly_chart(
-            fig_branch,
-            use_container_width=True
-        )
+        fig = modern_chart(fig)
+        st.plotly_chart(fig, use_container_width=True)
 
     with col4:
-
         course_popularity = (
-            filtered_enrolments
-            .groupby("CourseID")["StudentID"]
+            filtered_enrolments.groupby("CourseID")["StudentID"]
             .nunique()
-            .reset_index(
-                name="Students"
-            )
+            .reset_index(name="Students")
         )
-
-        course_popularity["Course"] = (
-            course_popularity["CourseID"]
-            .map(course_map)
-        )
-
+        course_popularity["Course"] = course_popularity["CourseID"].map(course_map)
         course_popularity = (
-            course_popularity
-            .sort_values(
-                "Students",
-                ascending=False
-            )
-            .head(7)
+            course_popularity.sort_values("Students", ascending=False).head(7)
         )
 
-        fig_course = px.bar(
+        fig = px.bar(
             course_popularity,
             x="Students",
             y="Course",
             orientation="h",
             title="Course Popularity"
         )
-
-        fig_course.update_layout(
-            yaxis={
-                "categoryorder": "total ascending"
-            }
-        )
-
-        fig_course = modern_chart(fig_course)
-
-
-
-        st.plotly_chart(
-            fig_course,
-            use_container_width=True
-        )
+        fig.update_layout(yaxis={"categoryorder": "total ascending"})
+        fig = modern_chart(fig)
+        st.plotly_chart(fig, use_container_width=True)
 
 # =========================================================
 # ACADEMIC MANAGER
 # =========================================================
 
-elif dashboard_view == "Academic Manager":
+elif st.session_state.page == "Academic Manager":
 
     dashboard_header(
         "Academic Manager Dashboard",
-        "Academic performance and student engagement"
+        "Academic performance, tutor effectiveness and student engagement"
     )
 
-    avg_score = (
-        filtered_scores["Score"].mean()
-        if not filtered_scores.empty
-        else 0
-    )
-
+    avg_score = filtered_scores["Score"].mean() if not filtered_scores.empty else 0
     attendance_rate = (
         filtered_attendance["Present"].mean() * 100
-        if not filtered_attendance.empty
-        else 0
+        if not filtered_attendance.empty else 0
     )
-
-    active_courses = filtered_enrolments[
-        "CourseID"
-    ].nunique()
-
-    active_tutors = filtered_tutors[
-        "TutorID"
-    ].nunique()
+    active_courses = filtered_enrolments["CourseID"].nunique()
+    active_tutors = filtered_tutors["TutorID"].nunique()
 
     c1, c2, c3, c4 = st.columns(4)
-
-    c1.metric(
-        "Average Academic Score",
-        f"{avg_score:.1f}%"
-    )
-
-    c2.metric(
-        "Attendance Rate",
-        f"{attendance_rate:.1f}%"
-    )
-
-    c3.metric(
-        "Active Courses",
-        f"{active_courses}"
-    )
-
-    c4.metric(
-        "Active Tutors",
-        f"{active_tutors}"
-    )
+    c1.metric("Average Academic Score", f"{avg_score:.1f}%")
+    c2.metric("Attendance Rate", f"{attendance_rate:.1f}%")
+    c3.metric("Active Courses", f"{active_courses}")
+    c4.metric("Active Tutors", f"{active_tutors}")
 
     st.markdown("---")
 
     col1, col2 = st.columns(2)
 
-    # SCORE BY SUBJECT
     with col1:
-
+        subject_scores = filtered_scores.copy()
+        subject_scores["Subject"] = subject_scores["CourseID"].map(subject_map)
         subject_scores = (
-            filtered_scores
-            .copy()
-        )
-
-        subject_scores["Subject"] = (
-            subject_scores["CourseID"]
-            .map(subject_map)
-        )
-
-        subject_scores = (
-            subject_scores
-            .groupby("Subject")["Score"]
+            subject_scores.groupby("Subject")["Score"]
             .mean()
             .reset_index()
         )
 
-        fig_scores = px.bar(
+        fig = px.bar(
             subject_scores,
             x="Subject",
             y="Score",
-            title="Academic Performance by Subject",
-            text_auto=".1f"
+            text_auto=".1f",
+            title="Academic Performance by Subject"
         )
+        fig.update_yaxes(range=[0, 100])
+        fig = modern_chart(fig)
+        st.plotly_chart(fig, use_container_width=True)
 
-        fig_scores.update_yaxes(
-            range=[0, 100]
-        )
-
-        fig_scores = modern_chart(fig_scores)
-
-
-
-        st.plotly_chart(
-            fig_scores,
-            use_container_width=True
-        )
-
-    # TUTOR PERFORMANCE
     with col2:
-
-        tutor_performance = (
-            filtered_scores
-            .groupby("TutorID")["Score"]
+        tutor_perf = (
+            filtered_scores.groupby("TutorID")["Score"]
             .mean()
             .reset_index()
         )
+        tutor_perf["Tutor"] = tutor_perf["TutorID"].map(tutor_map)
+        tutor_perf = tutor_perf.sort_values("Score", ascending=False).head(10)
 
-        tutor_performance["Tutor"] = (
-            tutor_performance["TutorID"]
-            .map(tutor_map)
-        )
-
-        tutor_performance = (
-            tutor_performance
-            .sort_values(
-                "Score",
-                ascending=False
-            )
-            .head(10)
-        )
-
-        fig_tutor = px.bar(
-            tutor_performance.sort_values(
-                "Score"
-            ),
+        fig = px.bar(
+            tutor_perf.sort_values("Score"),
             x="Score",
             y="Tutor",
             orientation="h",
-            title="Tutor Performance"
+            title="Tutor Performance",
+            text="Score"
         )
-
-        fig_tutor.update_xaxes(
-            range=[0, 100]
-        )
-
-        fig_tutor = modern_chart(fig_tutor)
-
-
-
-        st.plotly_chart(
-            fig_tutor,
-            use_container_width=True
-        )
+        fig.update_xaxes(range=[0, 100])
+        fig.update_traces(texttemplate="%{text:.1f}", textposition="outside")
+        fig = modern_chart(fig)
+        st.plotly_chart(fig, use_container_width=True)
 
     col3, col4 = st.columns(2)
 
-    # ATTENDANCE TREND
     with col3:
-
-        att_data = attendance.copy()
-
+        att = attendance.copy()
         if selected_branch_id is not None:
-            att_data = att_data[
-                att_data["BranchID"]
-                == selected_branch_id
-            ]
-
+            att = att[att["BranchID"] == selected_branch_id]
         if selected_subject != "All Subjects":
-            att_data = att_data[
-                att_data["CourseID"]
-                .isin(selected_course_ids)
-            ]
+            att = att[att["CourseID"].isin(selected_course_ids)]
 
-        att_data["Month"] = (
-            att_data["SessionDate"]
-            .dt.strftime("%b")
-        )
-
-        attendance_trend = (
-            att_data
-            .groupby("Month")["Present"]
+        att["Month"] = att["SessionDate"].dt.strftime("%b")
+        trend = (
+            att.groupby("Month")["Present"]
             .mean()
             .mul(100)
-            .reindex(
-                ["Jan", "Feb", "Mar", "Apr", "May"]
-            )
-            .reset_index(
-                name="AttendanceRate"
-            )
+            .reindex(["Jan", "Feb", "Mar", "Apr", "May"])
+            .reset_index(name="AttendanceRate")
         )
 
-        fig_att = px.line(
-            attendance_trend,
+        fig = px.line(
+            trend,
             x="Month",
             y="AttendanceRate",
             markers=True,
             title="Attendance Trend"
         )
+        fig.update_yaxes(range=[70, 100], ticksuffix="%")
+        fig = modern_chart(fig)
+        st.plotly_chart(fig, use_container_width=True)
 
-        fig_att.update_yaxes(
-            range=[70, 100],
-            ticksuffix="%"
-        )
-
-        fig_att = modern_chart(fig_att)
-
-
-
-        st.plotly_chart(
-            fig_att,
-            use_container_width=True
-        )
-
-    # PHYSICAL VS ONLINE
     with col4:
-
         learning_mode = (
-            filtered_attendance
-            .groupby("Mode")
+            filtered_attendance.groupby("Mode")
             .size()
-            .reset_index(
-                name="Sessions"
-            )
+            .reset_index(name="Sessions")
         )
 
-        fig_mode = px.pie(
+        fig = px.pie(
             learning_mode,
             names="Mode",
             values="Sessions",
             hole=0.55,
             title="Learning Mode Distribution"
         )
+        fig = modern_chart(fig)
+        st.plotly_chart(fig, use_container_width=True)
 
-        fig_mode = modern_chart(fig_mode)
-
-
-
-        st.plotly_chart(
-            fig_mode,
-            use_container_width=True
-        )
-
-    # DRILL DOWN
-    with st.expander(
-        "🔎 Drill Down: Students Requiring Academic Support"
-    ):
-
-        low_scores = filtered_scores[
-            filtered_scores["Score"] < 60
-        ].copy()
-
+    with st.expander("🔎 Drill Down: Students Requiring Academic Support"):
+        low_scores = filtered_scores[filtered_scores["Score"] < 60].copy()
         low_scores = low_scores.merge(
-            students[
-                [
-                    "StudentID",
-                    "StudentName",
-                    "Level"
-                ]
-            ],
+            students[["StudentID", "StudentName", "Level"]],
             on="StudentID",
             how="left"
         )
-
-        low_scores["Course"] = (
-            low_scores["CourseID"]
-            .map(course_map)
-        )
+        low_scores["Course"] = low_scores["CourseID"].map(course_map)
 
         st.dataframe(
             low_scores[
-                [
-                    "StudentID",
-                    "StudentName",
-                    "Level",
-                    "Course",
-                    "Score"
-                ]
-            ].sort_values(
-                "Score"
-            ),
+                ["StudentID", "StudentName", "Level", "Course", "Score"]
+            ].sort_values("Score"),
             use_container_width=True
         )
 
@@ -1034,7 +1267,7 @@ elif dashboard_view == "Academic Manager":
 # FINANCE MANAGER
 # =========================================================
 
-elif dashboard_view == "Finance Manager":
+elif st.session_state.page == "Finance Manager":
 
     dashboard_header(
         "Finance Manager Dashboard",
@@ -1043,198 +1276,95 @@ elif dashboard_view == "Finance Manager":
 
     net_billed = (
         filtered_payments["BilledAmountRM"].sum()
-        -
-        filtered_payments["DiscountAmountRM"].sum()
+        - filtered_payments["DiscountAmountRM"].sum()
     )
-
-    collected = filtered_payments[
-        "PaidAmountRM"
-    ].sum()
-
-    outstanding = filtered_payments[
-        "OutstandingAmountRM"
-    ].sum()
-
-    collection_rate = (
-        collected / net_billed * 100
-        if net_billed > 0
-        else 0
-    )
+    collected = filtered_payments["PaidAmountRM"].sum()
+    outstanding = filtered_payments["OutstandingAmountRM"].sum()
+    collection_rate = collected / net_billed * 100 if net_billed > 0 else 0
 
     c1, c2, c3, c4 = st.columns(4)
-
-    c1.metric(
-        "Net Billed",
-        f"RM {net_billed:,.0f}"
-    )
-
-    c2.metric(
-        "Collected",
-        f"RM {collected:,.0f}"
-    )
-
-    c3.metric(
-        "Outstanding",
-        f"RM {outstanding:,.0f}"
-    )
-
-    c4.metric(
-        "Collection Rate",
-        f"{collection_rate:.1f}%"
-    )
+    c1.metric("Net Billed", f"RM {net_billed:,.0f}")
+    c2.metric("Collected", f"RM {collected:,.0f}")
+    c3.metric("Outstanding", f"RM {outstanding:,.0f}")
+    c4.metric("Collection Rate", f"{collection_rate:.1f}%")
 
     st.markdown("---")
 
     col1, col2 = st.columns(2)
 
     with col1:
-
-        finance_data = payments.copy()
-
+        fin = payments.copy()
         if selected_branch_id is not None:
-            finance_data = finance_data[
-                finance_data["BranchID"]
-                == selected_branch_id
-            ]
-
+            fin = fin[fin["BranchID"] == selected_branch_id]
         if selected_subject != "All Subjects":
-            finance_data = finance_data[
-                finance_data["CourseID"]
-                .isin(selected_course_ids)
-            ]
+            fin = fin[fin["CourseID"].isin(selected_course_ids)]
 
-        finance_data["Month"] = (
-            finance_data["BillingMonth"]
-            .dt.strftime("%b")
-        )
-
+        fin["Month"] = fin["BillingMonth"].dt.strftime("%b")
         monthly_finance = (
-            finance_data
-            .groupby("Month")
+            fin.groupby("Month")
             .agg(
-                Collected=(
-                    "PaidAmountRM",
-                    "sum"
-                ),
-                Outstanding=(
-                    "OutstandingAmountRM",
-                    "sum"
-                )
+                Collected=("PaidAmountRM", "sum"),
+                Outstanding=("OutstandingAmountRM", "sum")
             )
-            .reindex(
-                ["Jan", "Feb", "Mar", "Apr", "May"]
-            )
+            .reindex(["Jan", "Feb", "Mar", "Apr", "May"])
             .fillna(0)
             .reset_index()
         )
 
-        fig_finance = px.line(
+        fig = px.line(
             monthly_finance,
             x="Month",
-            y=[
-                "Collected",
-                "Outstanding"
-            ],
+            y=["Collected", "Outstanding"],
             markers=True,
             title="Collection vs Outstanding Trend"
         )
-
-        fig_finance = modern_chart(fig_finance)
-
-
-
-        st.plotly_chart(
-            fig_finance,
-            use_container_width=True
-        )
+        fig = modern_chart(fig)
+        st.plotly_chart(fig, use_container_width=True)
 
     with col2:
-
         payment_status = (
-            filtered_payments
-            .groupby("PaymentStatus")
+            filtered_payments.groupby("PaymentStatus")
             .size()
-            .reset_index(
-                name="Transactions"
-            )
+            .reset_index(name="Transactions")
         )
 
-        fig_status = px.pie(
+        fig = px.pie(
             payment_status,
             names="PaymentStatus",
             values="Transactions",
             hole=0.55,
             title="Payment Status Distribution"
         )
+        fig = modern_chart(fig)
+        st.plotly_chart(fig, use_container_width=True)
 
-        fig_status = modern_chart(fig_status)
-
-
-
-        st.plotly_chart(
-            fig_status,
-            use_container_width=True
-        )
-
-    # FINANCE BY BRANCH
     finance_branch = (
-        payments
-        .groupby("BranchID")
+        payments.groupby("BranchID")
         .agg(
-            Revenue=(
-                "PaidAmountRM",
-                "sum"
-            ),
-            Outstanding=(
-                "OutstandingAmountRM",
-                "sum"
-            )
+            Revenue=("PaidAmountRM", "sum"),
+            Outstanding=("OutstandingAmountRM", "sum")
         )
         .reset_index()
     )
+    finance_branch["Branch"] = finance_branch["BranchID"].map(branch_map)
 
-    finance_branch["Branch"] = (
-        finance_branch["BranchID"]
-        .map(branch_map)
-    )
-
-    fig_finance_branch = px.bar(
+    fig = px.bar(
         finance_branch,
         x="Branch",
-        y=[
-            "Revenue",
-            "Outstanding"
-        ],
+        y=["Revenue", "Outstanding"],
         barmode="group",
         title="Financial Performance by Branch"
     )
+    fig = modern_chart(fig, height=410)
+    st.plotly_chart(fig, use_container_width=True)
 
-    fig_finance_branch = modern_chart(fig_finance_branch)
-
-
-
-    st.plotly_chart(
-        fig_finance_branch,
-        use_container_width=True
-    )
-
-    with st.expander(
-        "🔎 Drill Down: Outstanding Payments"
-    ):
-
+    with st.expander("🔎 Drill Down: Outstanding Payments"):
         outstanding_records = (
             filtered_payments[
-                filtered_payments[
-                    "OutstandingAmountRM"
-                ] > 0
+                filtered_payments["OutstandingAmountRM"] > 0
             ]
             .merge(
-                students[
-                    [
-                        "StudentID",
-                        "StudentName"
-                    ]
-                ],
+                students[["StudentID", "StudentName"]],
                 on="StudentID",
                 how="left"
             )
@@ -1251,10 +1381,7 @@ elif dashboard_view == "Finance Manager":
                     "OutstandingAmountRM",
                     "PaymentStatus"
                 ]
-            ].sort_values(
-                "OutstandingAmountRM",
-                ascending=False
-            ),
+            ].sort_values("OutstandingAmountRM", ascending=False),
             use_container_width=True
         )
 
@@ -1262,244 +1389,130 @@ elif dashboard_view == "Finance Manager":
 # BRANCH MANAGER
 # =========================================================
 
-elif dashboard_view == "Branch Manager":
+elif st.session_state.page == "Branch Manager":
 
     dashboard_header(
         "Branch Manager Dashboard",
-        "Branch-level operational performance"
+        "Branch-level operational performance and resource monitoring"
     )
 
     if selected_branch == "All Branches":
         st.info(
-            "Select a specific branch from the sidebar "
-            "for detailed branch-level analysis."
+            "Select a specific branch from the sidebar for detailed branch-level analysis."
         )
 
-    branch_students = filtered_students[
-        "StudentID"
-    ].nunique()
-
-    branch_tutors = filtered_tutors[
-        "TutorID"
-    ].nunique()
-
+    branch_students = filtered_students["StudentID"].nunique()
+    branch_tutors = filtered_tutors["TutorID"].nunique()
     branch_attendance = (
         filtered_attendance["Present"].mean() * 100
-        if not filtered_attendance.empty
-        else 0
+        if not filtered_attendance.empty else 0
     )
-
-    branch_revenue = filtered_payments[
-        "PaidAmountRM"
-    ].sum()
+    branch_revenue = filtered_payments["PaidAmountRM"].sum()
 
     c1, c2, c3, c4 = st.columns(4)
-
-    c1.metric(
-        "Students",
-        f"{branch_students:,}"
-    )
-
-    c2.metric(
-        "Tutors",
-        f"{branch_tutors:,}"
-    )
-
-    c3.metric(
-        "Attendance",
-        f"{branch_attendance:.1f}%"
-    )
-
-    c4.metric(
-        "Revenue",
-        f"RM {branch_revenue:,.0f}"
-    )
+    c1.metric("Students", f"{branch_students:,}")
+    c2.metric("Tutors", f"{branch_tutors:,}")
+    c3.metric("Attendance", f"{branch_attendance:.1f}%")
+    c4.metric("Revenue", f"RM {branch_revenue:,.0f}")
 
     st.markdown("---")
 
     col1, col2 = st.columns(2)
 
-    # COURSE DEMAND
     with col1:
-
         branch_courses = (
-            filtered_enrolments
-            .groupby("CourseID")["StudentID"]
+            filtered_enrolments.groupby("CourseID")["StudentID"]
             .nunique()
-            .reset_index(
-                name="Students"
-            )
+            .reset_index(name="Students")
         )
-
-        branch_courses["Course"] = (
-            branch_courses["CourseID"]
-            .map(course_map)
-        )
-
+        branch_courses["Course"] = branch_courses["CourseID"].map(course_map)
         branch_courses = (
-            branch_courses
-            .sort_values(
-                "Students",
-                ascending=False
-            )
-            .head(10)
+            branch_courses.sort_values("Students", ascending=False).head(10)
         )
 
-        fig_branch_courses = px.bar(
-            branch_courses.sort_values(
-                "Students"
-            ),
+        fig = px.bar(
+            branch_courses.sort_values("Students"),
             x="Students",
             y="Course",
             orientation="h",
             title="Course Demand"
         )
+        fig = modern_chart(fig)
+        st.plotly_chart(fig, use_container_width=True)
 
-        fig_branch_courses = modern_chart(fig_branch_courses)
-
-
-
-        st.plotly_chart(
-            fig_branch_courses,
-            use_container_width=True
-        )
-
-    # INVENTORY
     with col2:
-
-        fig_inventory = px.bar(
+        fig = px.bar(
             filtered_inventory,
             x="ItemCategory",
             y="ClosingQty",
             color="StockStatus",
             title="Inventory Status",
-            hover_data=[
-                "ReorderLevel"
-            ]
+            hover_data=["ReorderLevel"]
         )
+        fig = modern_chart(fig)
+        st.plotly_chart(fig, use_container_width=True)
 
-        fig_inventory = modern_chart(fig_inventory)
-
-
-
-        st.plotly_chart(
-            fig_inventory,
-            use_container_width=True
-        )
-
-    # BRANCH COMPARISON
     branch_comparison = (
-        enrolments
-        .groupby("BranchID")["StudentID"]
+        enrolments.groupby("BranchID")["StudentID"]
         .nunique()
-        .reset_index(
-            name="Students"
-        )
+        .reset_index(name="Students")
     )
+    branch_comparison["Branch"] = branch_comparison["BranchID"].map(branch_map)
 
-    branch_comparison["Branch"] = (
-        branch_comparison["BranchID"]
-        .map(branch_map)
-    )
-
-    fig_compare = px.bar(
+    fig = px.bar(
         branch_comparison,
         x="Branch",
         y="Students",
         title="Student Distribution Across Branches"
     )
-
-    fig_compare = modern_chart(fig_compare)
-
-
-
-    st.plotly_chart(
-        fig_compare,
-        use_container_width=True
-    )
+    fig = modern_chart(fig, height=390)
+    st.plotly_chart(fig, use_container_width=True)
 
 # =========================================================
 # MARKETING MANAGER
 # =========================================================
 
-elif dashboard_view == "Marketing Manager":
+elif st.session_state.page == "Marketing Manager":
 
     dashboard_header(
         "Marketing Manager Dashboard",
-        "Campaign effectiveness and student acquisition"
+        "Campaign effectiveness, acquisition efficiency and student growth"
     )
 
-    total_leads = marketing[
-        "Leads"
-    ].sum()
-
-    marketing_enrolments = marketing[
-        "Enrolments"
-    ].sum()
-
-    total_spend = marketing[
-        "SpendRM"
-    ].sum()
-
+    total_leads = marketing["Leads"].sum()
+    marketing_enrolments = marketing["Enrolments"].sum()
+    total_spend = marketing["SpendRM"].sum()
     conversion_rate = (
-        marketing_enrolments
-        / total_leads
-        * 100
-        if total_leads > 0
-        else 0
+        marketing_enrolments / total_leads * 100
+        if total_leads > 0 else 0
     )
-
     average_cpa = (
-        total_spend
-        / marketing_enrolments
-        if marketing_enrolments > 0
-        else 0
+        total_spend / marketing_enrolments
+        if marketing_enrolments > 0 else 0
     )
 
     c1, c2, c3, c4 = st.columns(4)
-
-    c1.metric(
-        "Marketing Leads",
-        f"{total_leads:,}"
-    )
-
-    c2.metric(
-        "Campaign Enrolments",
-        f"{marketing_enrolments:,}"
-    )
-
-    c3.metric(
-        "Conversion Rate",
-        f"{conversion_rate:.1f}%"
-    )
-
-    c4.metric(
-        "Average CPA",
-        f"RM {average_cpa:,.0f}"
-    )
+    c1.metric("Marketing Leads", f"{total_leads:,}")
+    c2.metric("Campaign Enrolments", f"{marketing_enrolments:,}")
+    c3.metric("Conversion Rate", f"{conversion_rate:.1f}%")
+    c4.metric("Average CPA", f"RM {average_cpa:,.0f}")
 
     st.markdown("---")
 
-    col1, col2 = st.columns(2)
+    col1, col2 = st.columns([1.05, 0.95])
 
-    # CAMPAIGN ENROLMENTS
     with col1:
+        st.markdown("#### Enrolments by Campaign")
+        st.caption("Campaigns ranked by student enrolment outcomes.")
 
-        campaign_data = (
-            marketing
-            .sort_values(
-                "Enrolments",
-                ascending=True
-            )
-        )
+        campaign_data = marketing.sort_values("Enrolments", ascending=True)
 
-        fig_campaign = px.bar(
+        fig = px.bar(
             campaign_data,
             x="Enrolments",
             y="CampaignName",
             orientation="h",
             color="Channel",
-            title="Enrolments by Campaign",
             hover_name="CampaignName",
             hover_data={
                 "Channel": True,
@@ -1509,26 +1522,34 @@ elif dashboard_view == "Marketing Manager":
                 "CampaignName": False
             }
         )
-
-        fig_campaign = modern_chart(fig_campaign)
-
-
-
+        fig.update_layout(
+            showlegend=False,
+            height=405,
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(0,0,0,0)",
+            margin=dict(l=10, r=12, t=12, b=20),
+            xaxis_title="Enrolments",
+            yaxis_title="",
+            font=dict(family="Inter, Segoe UI, sans-serif", color="#475467", size=12)
+        )
+        fig.update_xaxes(showgrid=True, gridcolor="#EDF2F7", zeroline=False)
+        fig.update_yaxes(showgrid=False, categoryorder="total ascending")
         st.plotly_chart(
-            fig_campaign,
-            use_container_width=True
+            fig,
+            use_container_width=True,
+            config={"displayModeBar": False}
         )
 
-    # SPEND VS ENROLMENT
     with col2:
+        st.markdown("#### Campaign Spend vs Enrolments")
+        st.caption("Evaluate whether higher campaign spending produces stronger enrolment.")
 
-        fig_spend = px.scatter(
+        fig = px.scatter(
             marketing,
             x="SpendRM",
             y="Enrolments",
             size="Leads",
             color="Channel",
-            title="Campaign Spend vs Enrolments",
             hover_name="CampaignName",
             hover_data={
                 "SpendRM": ":,.0f",
@@ -1539,80 +1560,81 @@ elif dashboard_view == "Marketing Manager":
                 "Channel": True
             }
         )
-
-        fig_spend.update_traces(
+        fig.update_traces(
             marker=dict(
-                line=dict(width=1.5, color="rgba(255,255,255,0.85)")
+                line=dict(width=1.4, color="rgba(255,255,255,0.90)"),
+                opacity=0.88
             )
         )
-
-        fig_spend = modern_chart(fig_spend)
-
-
-
+        fig.update_layout(
+            showlegend=False,
+            height=405,
+            paper_bgcolor="rgba(0,0,0,0)",
+            plot_bgcolor="rgba(0,0,0,0)",
+            margin=dict(l=10, r=12, t=12, b=20),
+            xaxis_title="Spend (RM)",
+            yaxis_title="Enrolments",
+            font=dict(family="Inter, Segoe UI, sans-serif", color="#475467", size=12)
+        )
+        fig.update_xaxes(showgrid=False, zeroline=False)
+        fig.update_yaxes(showgrid=True, gridcolor="#EDF2F7", zeroline=False)
         st.plotly_chart(
-            fig_spend,
-            use_container_width=True
+            fig,
+            use_container_width=True,
+            config={"displayModeBar": False}
         )
 
-    # ACQUISITION SOURCE
+    st.markdown("#### Student Acquisition Sources")
+    st.caption("Primary channels through which students discovered Study Smart.")
+
     acquisition = (
-        students
-        .groupby("AcquisitionSource")
+        students.groupby("AcquisitionSource")
         .size()
-        .reset_index(
-            name="Students"
-        )
-        .sort_values(
-            "Students",
-            ascending=False
-        )
+        .reset_index(name="Students")
+        .sort_values("Students", ascending=False)
     )
 
-    fig_acquisition = px.bar(
+    fig = px.bar(
         acquisition,
         x="AcquisitionSource",
-        y="Students",
-        title="Student Acquisition Sources"
+        y="Students"
     )
-
-    fig_acquisition = modern_chart(fig_acquisition, height=360)
-
-
-
+    fig.update_layout(
+        showlegend=False,
+        height=350,
+        paper_bgcolor="rgba(0,0,0,0)",
+        plot_bgcolor="rgba(0,0,0,0)",
+        margin=dict(l=10, r=12, t=12, b=20),
+        xaxis_title="Acquisition Source",
+        yaxis_title="Students",
+        font=dict(family="Inter, Segoe UI, sans-serif", color="#475467", size=12)
+    )
+    fig.update_xaxes(showgrid=False, zeroline=False)
+    fig.update_yaxes(showgrid=True, gridcolor="#EDF2F7", zeroline=False)
     st.plotly_chart(
-        fig_acquisition,
-        use_container_width=True
+        fig,
+        use_container_width=True,
+        config={"displayModeBar": False}
     )
 
 # =========================================================
-# DOWNLOAD SECTION
+# DOWNLOAD + FOOTER
 # =========================================================
 
-st.markdown("---")
+if st.session_state.page != "Home":
+    st.markdown("---")
+    st.markdown("### Download Filtered Data")
 
-st.markdown(
-    "### Download Filtered Dataset"
-)
+    csv_data = filtered_enrolments.to_csv(index=False).encode("utf-8")
 
-export_data = filtered_enrolments.copy()
-
-csv_data = export_data.to_csv(
-    index=False
-).encode("utf-8")
-
-st.download_button(
-    label="⬇ Download Filtered Enrolment Data",
-    data=csv_data,
-    file_name="StudySmart_Filtered_Enrolments.csv",
-    mime="text/csv"
-)
-
-# =========================================================
-# FOOTER
-# =========================================================
+    st.download_button(
+        label="⬇ Download Filtered Enrolment Data",
+        data=csv_data,
+        file_name="StudySmart_Filtered_Enrolments.csv",
+        mime="text/csv"
+    )
 
 st.caption(
-    "Study Smart Tuition Centre Business Intelligence Dashboard "
+    "Study Smart Tuition Centre • Management Portal "
     "• Synthetic data for academic demonstration"
 )
