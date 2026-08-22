@@ -47,7 +47,7 @@ st.markdown(
     }
 
     [data-testid="stSidebar"] > div:first-child {
-        padding-top: 0.35rem;
+        padding-top: 0.15rem;
     }
 
     [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
@@ -63,36 +63,36 @@ st.markdown(
     }
 
     .brand-wrap {
-        margin: 6px 0 12px 0;
-        padding: 10px;
+        margin: 2px 8px 6px 8px;
+        padding: 5px 7px;
         background: #FFFFFF;
         border: 1px solid #E2E8F0;
-        border-radius: 14px;
-        box-shadow: 0 8px 20px rgba(2, 6, 23, 0.20);
+        border-radius: 12px;
+        box-shadow: 0 4px 12px rgba(2, 6, 23, 0.14);
         overflow: hidden;
     }
 
     .brand-logo {
         width: 100%;
+        max-height: 118px;
         display: block;
         object-fit: contain;
         margin: 0 auto;
     }
 
     .brand-subtitle {
-        margin-top: 8px;
-        padding: 0 2px 2px 2px;
+        margin: 6px 10px 12px 10px;
         font-size: 9px;
-        letter-spacing: 1.8px;
+        letter-spacing: 1.9px;
         font-weight: 800;
-        color: #64748B;
+        color: #94A3B8;
         text-transform: uppercase;
-        text-align: center;
+        text-align: left;
     }
 
     .side-section {
-        margin-top: 10px;
-        margin-bottom: 6px;
+        margin-top: 8px;
+        margin-bottom: 5px;
         font-size: 10px;
         font-weight: 700;
         letter-spacing: 1.5px;
@@ -780,7 +780,7 @@ def set_page(page_name):
 # SIDEBAR
 # =========================================================
 
-with open("study_smart_logo.png", "rb") as logo_file:
+with open("study_smart_logo_compact.png", "rb") as logo_file:
     logo_base64 = base64.b64encode(logo_file.read()).decode()
 
 st.sidebar.markdown(
@@ -789,8 +789,8 @@ st.sidebar.markdown(
         <img class="brand-logo"
              src="data:image/png;base64,{logo_base64}"
              alt="Study Smart Tuition Centre">
-        <div class="brand-subtitle">Management Portal</div>
     </div>
+    <div class="brand-subtitle">Management Portal</div>
     """,
     unsafe_allow_html=True
 )
