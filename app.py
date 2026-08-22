@@ -47,7 +47,7 @@ st.markdown(
     }
 
     [data-testid="stSidebar"] > div:first-child {
-        padding-top: 0.15rem;
+        padding-top: 0.1rem;
     }
 
     [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
@@ -63,25 +63,29 @@ st.markdown(
     }
 
     .brand-wrap {
-        margin: 2px 8px 6px 8px;
-        padding: 5px 7px;
-        background: #FFFFFF;
-        border: 1px solid #E2E8F0;
-        border-radius: 12px;
-        box-shadow: 0 4px 12px rgba(2, 6, 23, 0.14);
-        overflow: hidden;
+        margin: 0 0 6px 0;
+        padding: 0;
+        background: transparent;
+        border: none;
+        border-radius: 0;
+        box-shadow: none;
+        overflow: visible;
+        text-align: center;
     }
 
     .brand-logo {
         width: 100%;
-        max-height: 118px;
+        max-width: 300px;
+        max-height: 190px;
         display: block;
         object-fit: contain;
         margin: 0 auto;
+        border-radius: 0;
+        background: transparent;
     }
 
     .brand-subtitle {
-        margin: 6px 10px 12px 10px;
+        margin: 6px 0 10px 0;
         font-size: 9px;
         letter-spacing: 1.9px;
         font-weight: 800;
@@ -91,7 +95,7 @@ st.markdown(
     }
 
     .side-section {
-        margin-top: 8px;
+        margin-top: 6px;
         margin-bottom: 5px;
         font-size: 10px;
         font-weight: 700;
