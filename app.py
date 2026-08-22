@@ -779,7 +779,17 @@ def set_page(page_name):
 st.sidebar.markdown(
     """
     <div class="brand-wrap">
-        <div class="brand-title">🎓 Study Smart</div>
+    """,
+    unsafe_allow_html=True
+)
+
+st.sidebar.image(
+    "study_smart_logo.png",
+    use_container_width=True
+)
+
+st.sidebar.markdown(
+    """
         <div class="brand-subtitle">Management Portal</div>
     </div>
     """,
