@@ -1316,7 +1316,7 @@ elif st.session_state.page == "Executive Management":
 elif st.session_state.page == "Academic Manager":
 
     dashboard_header(
-        "Academic Performance Centre",
+        "Academic Manager Dashboard",
         "Monitoring student outcomes, assessment scoring, and faculty performance"
     )
 
@@ -1485,7 +1485,7 @@ elif st.session_state.page == "Academic Manager":
 elif st.session_state.page == "Finance Manager":
 
     dashboard_header(
-        "Financial Performance Centre",
+        "Finance Manager Dashboard",
         "Revenue tracking, receivables aging, and billing efficiency"
     )
 
@@ -1723,7 +1723,7 @@ elif st.session_state.page == "Finance Manager":
 elif st.session_state.page == "Branch Manager":
 
     dashboard_header(
-        "Branch Operations Centre",
+        "Branch Manager Dashboard",
         "Branch performance, course utilization, and resource readiness"
     )
 
@@ -1810,7 +1810,7 @@ elif st.session_state.page == "Branch Manager":
 elif st.session_state.page == "Marketing Manager":
 
     dashboard_header(
-        "Marketing Performance Centre",
+        "Marketing Manager Dashboard",
         "Campaign efficiency, student acquisition costs, and channel returns"
     )
 
