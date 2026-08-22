@@ -63,25 +63,26 @@ st.markdown(
     }
 
     .brand-wrap {
-        margin: 0 0 6px 0;
+        margin: 2px 0 4px 0;
         padding: 0;
-        background: transparent;
-        border: none;
+        background: transparent !important;
+        border: none !important;
         border-radius: 0;
-        box-shadow: none;
+        box-shadow: none !important;
         overflow: visible;
         text-align: center;
     }
 
     .brand-logo {
         width: 100%;
-        max-width: 300px;
-        max-height: 190px;
+        max-width: 315px;
+        height: auto;
         display: block;
         object-fit: contain;
         margin: 0 auto;
-        border-radius: 0;
-        background: transparent;
+        padding: 0;
+        border: none;
+        background: transparent !important;
     }
 
     .brand-subtitle {
@@ -784,7 +785,7 @@ def set_page(page_name):
 # SIDEBAR
 # =========================================================
 
-with open("study_smart_logo_dark.png", "rb") as logo_file:
+with open("study_smart_logo_transparent.png", "rb") as logo_file:
     logo_base64 = base64.b64encode(logo_file.read()).decode()
 
 st.sidebar.markdown(
