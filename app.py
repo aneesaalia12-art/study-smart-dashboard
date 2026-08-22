@@ -780,7 +780,7 @@ def set_page(page_name):
 # SIDEBAR
 # =========================================================
 
-with open("study_smart_logo_compact.png", "rb") as logo_file:
+with open("study_smart_logo_new.png", "rb") as logo_file:
     logo_base64 = base64.b64encode(logo_file.read()).decode()
 
 st.sidebar.markdown(
