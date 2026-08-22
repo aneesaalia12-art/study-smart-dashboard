@@ -2,6 +2,7 @@ import streamlit as st
 import pandas as pd
 import plotly.express as px
 import plotly.graph_objects as go
+import base64
 
 # =========================================================
 # PAGE CONFIG
@@ -46,7 +47,7 @@ st.markdown(
     }
 
     [data-testid="stSidebar"] > div:first-child {
-        padding-top: 1rem;
+        padding-top: 0.35rem;
     }
 
     [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
@@ -62,32 +63,35 @@ st.markdown(
     }
 
     .brand-wrap {
-        padding: 8px 4px 16px 4px;
-        border-bottom: 1px solid #1E293B;
-        margin-bottom: 12px;
+        margin: 6px 0 12px 0;
+        padding: 10px;
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 14px;
+        box-shadow: 0 8px 20px rgba(2, 6, 23, 0.20);
+        overflow: hidden;
     }
 
-    .brand-title {
-        font-size: 20px;
-        font-weight: 800;
-        letter-spacing: -0.5px;
-        color: #FFFFFF;
-        display: flex;
-        align-items: center;
-        gap: 8px;
+    .brand-logo {
+        width: 100%;
+        display: block;
+        object-fit: contain;
+        margin: 0 auto;
     }
 
     .brand-subtitle {
-        margin-top: 4px;
-        font-size: 10px;
+        margin-top: 8px;
+        padding: 0 2px 2px 2px;
+        font-size: 9px;
         letter-spacing: 1.8px;
-        font-weight: 700;
-        color: #94A3B8;
+        font-weight: 800;
+        color: #64748B;
         text-transform: uppercase;
+        text-align: center;
     }
 
     .side-section {
-        margin-top: 16px;
+        margin-top: 10px;
         margin-bottom: 6px;
         font-size: 10px;
         font-weight: 700;
@@ -776,20 +780,15 @@ def set_page(page_name):
 # SIDEBAR
 # =========================================================
 
+with open("study_smart_logo.png", "rb") as logo_file:
+    logo_base64 = base64.b64encode(logo_file.read()).decode()
+
 st.sidebar.markdown(
-    """
+    f"""
     <div class="brand-wrap">
-    """,
-    unsafe_allow_html=True
-)
-
-st.sidebar.image(
-    "study_smart_logo.png",
-    use_container_width=True
-)
-
-st.sidebar.markdown(
-    """
+        <img class="brand-logo"
+             src="data:image/png;base64,{logo_base64}"
+             alt="Study Smart Tuition Centre">
         <div class="brand-subtitle">Management Portal</div>
     </div>
     """,
