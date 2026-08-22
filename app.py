@@ -1165,7 +1165,7 @@ if st.session_state.page == "Home":
 elif st.session_state.page == "Executive Management":
 
     dashboard_header(
-        "Executive Performance Overview",
+        "Executive Management Dashboard",
         "High-level enterprise summary and operational monitoring"
     )
 
