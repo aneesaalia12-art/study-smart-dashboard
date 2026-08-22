@@ -8,49 +8,49 @@ import plotly.graph_objects as go
 # =========================================================
 
 st.set_page_config(
-    page_title="Study Smart BI",
-    page_icon="🍀",
+    page_title="Study Smart Tuition Centre | Management Portal",
+    page_icon="🎓",
     layout="wide",
     initial_sidebar_state="expanded"
 )
 
 # =========================================================
-# DESIGN SYSTEM
+# CORPORATE DESIGN SYSTEM & CSS
 # =========================================================
 
 st.markdown(
     """
     <style>
+    
+    /* Global Typography & Background */
     html, body, [class*="css"] {
-        font-family: "Inter", "Segoe UI", sans-serif;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
     }
 
     .stApp {
-        background:
-            radial-gradient(circle at top right, rgba(59,130,246,0.07), transparent 28%),
-            linear-gradient(180deg, #F7F9FC 0%, #EEF3F8 100%);
-        color: #172033;
+        background-color: #F8FAFC;
+        color: #0F172A;
     }
 
     .block-container {
-        padding-top: 1.15rem;
-        padding-bottom: 2.4rem;
-        max-width: 1540px;
+        padding-top: 1.5rem;
+        padding-bottom: 3rem;
+        max-width: 1560px;
     }
 
-    /* ---------------- SIDEBAR ---------------- */
+    /* ---------------- SIDEBAR (Corporate Slate/Navy) ---------------- */
 
     [data-testid="stSidebar"] {
-        background: linear-gradient(180deg, #0B2F59 0%, #092A4B 60%, #07233D 100%);
-        border-right: 1px solid rgba(255,255,255,0.08);
+        background-color: #0F172A !important;
+        border-right: 1px solid #1E293B;
     }
 
     [data-testid="stSidebar"] > div:first-child {
-        padding-top: 0.55rem;
+        padding-top: 1rem;
     }
 
     [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
-        gap: 0.35rem !important;
+        gap: 0.4rem !important;
     }
 
     [data-testid="stSidebar"] h1,
@@ -58,40 +58,47 @@ st.markdown(
     [data-testid="stSidebar"] h3,
     [data-testid="stSidebar"] p,
     [data-testid="stSidebar"] label {
-        color: #F8FBFF !important;
+        color: #F1F5F9 !important;
     }
 
     .brand-wrap {
-        padding: 5px 2px 12px 2px;
+        padding: 8px 4px 16px 4px;
+        border-bottom: 1px solid #1E293B;
+        margin-bottom: 12px;
     }
 
     .brand-title {
-        font-size: 24px;
+        font-size: 20px;
         font-weight: 800;
-        letter-spacing: -0.45px;
-        color: white;
+        letter-spacing: -0.5px;
+        color: #FFFFFF;
+        display: flex;
+        align-items: center;
+        gap: 8px;
     }
 
     .brand-subtitle {
-        margin-top: 5px;
-        font-size: 11px;
-        letter-spacing: 1.9px;
-        font-weight: 750;
-        color: #ACC5DF;
+        margin-top: 4px;
+        font-size: 10px;
+        letter-spacing: 1.8px;
+        font-weight: 700;
+        color: #94A3B8;
+        text-transform: uppercase;
     }
 
     .side-section {
-        margin-top: 13px;
-        margin-bottom: 8px;
+        margin-top: 16px;
+        margin-bottom: 6px;
         font-size: 10px;
-        font-weight: 800;
-        letter-spacing: 1.65px;
-        color: #AFC6DF;
+        font-weight: 700;
+        letter-spacing: 1.5px;
+        color: #64748B;
+        text-transform: uppercase;
     }
 
     [data-testid="stSidebar"] hr {
-        margin: 0.75rem 0 !important;
-        border-color: rgba(255,255,255,0.09) !important;
+        margin: 0.8rem 0 !important;
+        border-color: #1E293B !important;
     }
 
     /* Radio navigation */
@@ -100,361 +107,434 @@ st.markdown(
     }
 
     [data-testid="stSidebar"] [role="radiogroup"] {
-        gap: 0.12rem !important;
+        gap: 0.25rem !important;
     }
 
     [data-testid="stSidebar"] [role="radiogroup"] label {
-        padding: 0.42rem 0.48rem !important;
-        border-radius: 10px !important;
-        transition: all 0.16s ease !important;
+        padding: 0.5rem 0.75rem !important;
+        border-radius: 8px !important;
+        transition: all 0.15s ease-in-out !important;
+        border: 1px solid transparent;
     }
 
     [data-testid="stSidebar"] [role="radiogroup"] label:hover {
-        background: rgba(255,255,255,0.08) !important;
-        transform: translateX(2px);
+        background: #1E293B !important;
+    }
+
+    [data-testid="stSidebar"] [role="radiogroup"] label[data-checked="true"] {
+        background: #1E3A8A !important;
+        border-color: #3B82F6 !important;
     }
 
     [data-testid="stSidebar"] [data-testid="stRadio"] span,
     [data-testid="stSidebar"] [data-testid="stRadio"] p {
-        color: #FFFFFF !important;
-        -webkit-text-fill-color: #FFFFFF !important;
-        font-weight: 600 !important;
-        opacity: 1 !important;
+        color: #F8FAFC !important;
+        -webkit-text-fill-color: #F8FAFC !important;
+        font-weight: 500 !important;
+        font-size: 13px !important;
     }
 
     /* Selectboxes */
-    [data-testid="stSidebar"] [data-testid="stSelectbox"] {
-        margin-bottom: 0.18rem !important;
-    }
-
     [data-testid="stSidebar"] [data-baseweb="select"] > div {
-        min-height: 42px !important;
-        border-radius: 10px !important;
-        background: #FFFFFF !important;
-        border: 1px solid #D7E1EC !important;
-        box-shadow: none !important;
-        transition: all 0.15s ease !important;
+        min-height: 40px !important;
+        border-radius: 8px !important;
+        background: #1E293B !important;
+        border: 1px solid #334155 !important;
+        color: #F8FAFC !important;
     }
 
     [data-testid="stSidebar"] [data-baseweb="select"] span,
-    [data-testid="stSidebar"] [data-baseweb="select"] input,
-    [data-testid="stSidebar"] [data-baseweb="select"] div {
-        color: #172033 !important;
-        -webkit-text-fill-color: #172033 !important;
-        opacity: 1 !important;
+    [data-testid="stSidebar"] [data-baseweb="select"] input {
+        color: #F8FAFC !important;
+        -webkit-text-fill-color: #F8FAFC !important;
     }
 
     [data-testid="stSidebar"] [data-baseweb="select"] svg {
-        fill: #667085 !important;
-        color: #667085 !important;
-    }
-
-    [data-testid="stSidebar"] [data-baseweb="select"] > div:hover {
-        border-color: #94B4D4 !important;
-        transform: translateY(-1px);
-    }
-
-    [data-testid="stSidebar"] [data-baseweb="select"] > div:focus-within {
-        border-color: #3B82F6 !important;
-        box-shadow: 0 0 0 2px rgba(59,130,246,0.12) !important;
+        fill: #94A3B8 !important;
     }
 
     div[role="listbox"] {
-        background: white !important;
-        border: 1px solid #D9E3EE !important;
-        border-radius: 10px !important;
-        box-shadow: 0 14px 30px rgba(15,43,77,0.16) !important;
+        background: #1E293B !important;
+        border: 1px solid #334155 !important;
+        border-radius: 8px !important;
     }
 
     div[role="option"], li[role="option"] {
-        background: white !important;
-        color: #172033 !important;
-        -webkit-text-fill-color: #172033 !important;
+        background: #1E293B !important;
+        color: #F8FAFC !important;
+        -webkit-text-fill-color: #F8FAFC !important;
     }
 
     div[role="option"]:hover, li[role="option"]:hover {
-        background: #EEF5FD !important;
+        background: #334155 !important;
     }
 
+    /* Buttons */
     [data-testid="stSidebar"] .stButton > button {
         width: 100%;
         min-height: 38px;
-        border-radius: 10px;
-        color: #FFFFFF;
-        background: rgba(255,255,255,0.07);
-        border: 1px solid rgba(255,255,255,0.16);
-        font-weight: 650;
-        transition: all 0.16s ease;
+        border-radius: 8px;
+        color: #F8FAFC;
+        background: #1E293B;
+        border: 1px solid #334155;
+        font-weight: 600;
+        font-size: 13px;
+        transition: all 0.15s ease;
     }
 
     [data-testid="stSidebar"] .stButton > button:hover {
-        background: rgba(255,255,255,0.13);
-        border-color: rgba(255,255,255,0.28);
-        transform: translateY(-1px);
+        background: #334155;
+        border-color: #475569;
     }
-/* ---------------- HOME ---------------- */
+
+    /* ---------------- CORPORATE HERO & CARDS ---------------- */
 
     .hero {
-        padding: 28px 30px;
-        border-radius: 22px;
-        background:
-            linear-gradient(135deg, rgba(11,47,89,0.98), rgba(20,83,145,0.94));
-        box-shadow: 0 16px 40px rgba(11,47,89,0.16);
-        margin-bottom: 18px;
+        padding: 32px 36px;
+        border-radius: 16px;
+        background: linear-gradient(135deg, #0F172A 0%, #1E293B 50%, #1E3A8A 100%);
+        border: 1px solid #334155;
+        box-shadow: 0 10px 25px -5px rgba(15, 23, 42, 0.2);
+        margin-bottom: 24px;
     }
 
     .hero-kicker {
-        color: #BCD8F3;
+        color: #60A5FA;
         font-size: 11px;
         font-weight: 800;
-        letter-spacing: 1.7px;
+        letter-spacing: 2px;
         margin-bottom: 8px;
+        text-transform: uppercase;
     }
 
     .hero-title {
         color: #FFFFFF;
-        font-size: 34px;
+        font-size: 32px;
         font-weight: 800;
-        letter-spacing: -0.8px;
+        letter-spacing: -0.6px;
         margin: 0;
     }
 
     .hero-sub {
-        color: #D5E6F6;
-        font-size: 15px;
-        margin-top: 9px;
-        max-width: 720px;
-        line-height: 1.55;
+        color: #94A3B8;
+        font-size: 14px;
+        margin-top: 10px;
+        max-width: 760px;
+        line-height: 1.6;
     }
 
     .home-section-title {
-        margin-top: 18px;
-        margin-bottom: 8px;
-        color: #172033;
-        font-size: 20px;
-        font-weight: 750;
+        margin-top: 24px;
+        margin-bottom: 12px;
+        color: #0F172A;
+        font-size: 18px;
+        font-weight: 700;
+        letter-spacing: -0.3px;
     }
 
     .role-card {
-        background: rgba(255,255,255,0.98);
-        border: 1px solid #DFE7F1;
-        border-radius: 16px;
-        padding: 18px 18px 16px 18px;
-        min-height: 150px;
-        box-shadow: 0 7px 20px rgba(15,43,77,0.045);
-        transition: all 0.18s ease;
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 12px;
+        padding: 20px;
+        min-height: 155px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.05);
+        transition: all 0.2s ease-in-out;
+        border-top: 3px solid #2563EB;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
 
     .role-card:hover {
         transform: translateY(-3px);
-        border-color: #C6D6E7;
-        box-shadow: 0 14px 28px rgba(15,43,77,0.08);
+        box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
+        border-color: #CBD5E1;
+        border-top-color: #1D4ED8;
     }
 
     .role-icon {
-        font-size: 24px;
+        font-size: 22px;
         margin-bottom: 8px;
     }
 
     .role-title {
-        color: #172033;
-        font-size: 16px;
-        font-weight: 750;
-        margin-bottom: 4px;
+        color: #0F172A;
+        font-size: 15px;
+        font-weight: 700;
+        margin-bottom: 6px;
     }
 
     .role-desc {
-        color: #667085;
+        color: #64748B;
         font-size: 12px;
-        line-height: 1.45;
+        line-height: 1.5;
     }
 
-    /* ---------------- MAIN DASHBOARD ---------------- */
 
-    h1 {
-        font-size: 2.18rem !important;
-        font-weight: 780 !important;
-        letter-spacing: -0.04em;
-        color: #172033;
-        margin-bottom: 0.1rem !important;
+    .top-meta {
+        display:flex;
+        justify-content:space-between;
+        align-items:center;
+        margin-bottom:10px;
+        font-size:11px;
+        color:#64748B;
     }
 
-    .dashboard-label {
+    .top-meta strong {
+        color:#0F172A;
+        font-weight:700;
+    }
+
+    /* ---------------- DASHBOARD HEADER & KPIs ---------------- */
+
+    .dashboard-badge {
         display: inline-flex;
-        padding: 6px 10px;
-        border-radius: 999px;
-        background: #EAF2FF;
-        color: #1D64C8;
-        font-size: 10px;
+        align-items: center;
+        padding: 4px 10px;
+        border-radius: 6px;
+        background: #EFF6FF;
+        border: 1px solid #DBEAFE;
+        color: #1E40AF;
+        font-size: 11px;
+        font-weight: 700;
+        letter-spacing: 0.8px;
+        margin-bottom: 10px;
+        text-transform: uppercase;
+    }
+
+    .dashboard-title {
+        font-size: 26px;
         font-weight: 800;
-        letter-spacing: 0.14em;
-        margin-bottom: 8px;
+        color: #0F172A;
+        letter-spacing: -0.5px;
+        margin-bottom: 4px;
     }
 
     .dashboard-subtitle {
-        color: #718096;
-        font-size: 0.99rem;
-        margin-top: -2px;
-        margin-bottom: 13px;
+        color: #64748B;
+        font-size: 14px;
+        margin-bottom: 16px;
     }
 
     .context-bar {
-        margin-top: 6px;
-        margin-bottom: 14px;
-        padding: 9px 12px;
-        border-radius: 11px;
-        background: rgba(255,255,255,0.75);
-        border: 1px solid #E1E8F0;
-        color: #667085;
+        margin-bottom: 20px;
+        padding: 10px 16px;
+        border-radius: 10px;
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        color: #475569;
         font-size: 12px;
+        display: flex;
+        gap: 16px;
+        align-items: center;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
     }
 
-    [data-testid="stMetric"] {
-        min-height: 124px;
+    .context-item {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+    }
+
+    .context-label {
+        color: #94A3B8;
+        font-weight: 600;
+        text-transform: uppercase;
+        font-size: 10px;
+        letter-spacing: 0.5px;
+    }
+
+    .context-value {
+        color: #0F172A;
+        font-weight: 700;
+    }
+
+    /* Custom KPI Container */
+    .kpi-card {
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 14px;
         padding: 18px 20px;
-        border-radius: 16px;
-        background: linear-gradient(145deg, #FFFFFF, #F8FBFF);
-        border: 1px solid #DFE7F1;
-        box-shadow:
-            0 8px 22px rgba(15,43,77,0.05),
-            0 2px 6px rgba(15,43,77,0.03);
-        transition: all 0.18s ease;
+        box-shadow: 0 4px 12px rgba(15,23,42,0.045);
+        transition: all 0.18s ease-in-out;
+        border-left: 4px solid #2563EB;
+        margin-bottom: 12px;
+        min-height: 126px;
+        height: 126px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        box-sizing: border-box;
     }
 
-    [data-testid="stMetric"]:hover {
-        transform: translateY(-3px);
-        border-color: #C2D3E5;
-        box-shadow: 0 14px 30px rgba(15,43,77,0.09);
+    .kpi-card:hover {
+        transform: translateY(-2px);
+        box-shadow: 0 10px 22px rgba(15,23,42,0.08);
+        border-color: #CBD5E1;
     }
 
-    [data-testid="stMetricLabel"] {
-        font-size: 0.86rem;
-        font-weight: 650;
-        color: #667085;
-    }
-
-    [data-testid="stMetricValue"] {
-        font-size: 1.84rem;
-        font-weight: 760;
-        letter-spacing: -0.03em;
-        color: #172033;
-    }
-
-    div[data-testid="stPlotlyChart"] {
-        padding: 10px;
-        border-radius: 16px;
-        background: rgba(255,255,255,0.98);
-        border: 1px solid #DFE7F1;
-        box-shadow: 0 7px 20px rgba(15,43,77,0.045);
+    .kpi-label {
+        font-size: 11px;
+        font-weight: 700;
+        color: #64748B;
+        text-transform: uppercase;
+        letter-spacing: 0.55px;
+        white-space: nowrap;
         overflow: hidden;
-        transition: all 0.18s ease;
+        text-overflow: ellipsis;
+    }
+
+    .kpi-value {
+        font-size: 24px;
+        font-weight: 800;
+        color: #0F172A;
+        margin-top: 4px;
+        letter-spacing: -0.5px;
+    }
+
+    .kpi-subtext {
+        font-size: 11px;
+        color: #94A3B8;
+        margin-top: 4px;
+        font-weight: 500;
+    }
+
+    /* Plotly Wrappers */
+    div[data-testid="stPlotlyChart"] {
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0;
+        border-radius: 14px;
+        padding: 14px 14px 10px 14px;
+        box-shadow: 0 1px 3px 0 rgba(0, 0, 0, 0.04);
+        transition: all 0.15s ease;
     }
 
     div[data-testid="stPlotlyChart"]:hover {
-        border-color: #C9D8E7;
-        box-shadow: 0 12px 28px rgba(15,43,77,0.08);
+        border-color: #CBD5E1;
     }
 
+
+    /* Plotly text safety for deployed light theme */
+    div[data-testid="stPlotlyChart"] {
+        color: #0F172A !important;
+    }
+
+
+    /* Finance legends: rendered as HTML instead of Plotly for cloud-safe visibility */
+    .finance-legend {
+        display: flex;
+        flex-wrap: wrap;
+        align-items: center;
+        gap: 18px;
+        margin: 2px 0 10px 2px;
+        color: #334155 !important;
+        font-size: 12px;
+        font-weight: 600;
+    }
+
+    .finance-legend-item {
+        display: inline-flex;
+        align-items: center;
+        gap: 7px;
+        color: #334155 !important;
+    }
+
+    .finance-legend-dot {
+        width: 11px;
+        height: 11px;
+        border-radius: 2px;
+        display: inline-block;
+        flex: 0 0 11px;
+    }
+
+    .finance-legend-dot.collected { background: #10B981; }
+    .finance-legend-dot.outstanding { background: #EF4444; }
+    .finance-legend-dot.paid { background: #10B981; }
+    .finance-legend-dot.overdue { background: #F59E0B; }
+    .finance-legend-dot.revenue { background: #2563EB; }
+    .finance-legend-dot.branch-outstanding { background: #F59E0B; }
+
+
+    /* Data Table & Expanders */
     [data-testid="stExpander"] {
-        background: rgba(255,255,255,0.97);
-        border: 1px solid #DFE7F1;
-        border-radius: 12px;
+        background: #FFFFFF;
+        border: 1px solid #E2E8F0 !important;
+        border-radius: 10px !important;
+        box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.03);
     }
 
     [data-testid="stDataFrame"] {
-        border-radius: 12px;
-        overflow: hidden;
         border: 1px solid #E2E8F0;
+        border-radius: 8px;
+        overflow: hidden;
     }
 
     .stDownloadButton > button {
-        background: linear-gradient(135deg, #0D5CC7, #0A3F8F);
+        background: #2563EB;
         color: white;
         border: none;
-        border-radius: 10px;
-        padding: 0.68rem 1rem;
-        font-weight: 650;
-        box-shadow: 0 8px 18px rgba(13,92,199,0.16);
+        border-radius: 8px;
+        padding: 0.6rem 1.2rem;
+        font-weight: 600;
+        font-size: 13px;
+        box-shadow: 0 1px 3px 0 rgba(37, 99, 235, 0.2);
+        transition: all 0.15s ease;
+    }
+
+    .stDownloadButton > button:hover {
+        background: #1D4ED8;
+        box-shadow: 0 4px 6px -1px rgba(37, 99, 235, 0.3);
     }
 
     hr {
         border: none;
-        border-top: 1px solid #DFE7F1;
-        margin: 1rem 0;
+        border-top: 1px solid #E2E8F0;
+        margin: 1.5rem 0;
     }
 
-
-    /* ===== SIDEBAR ACTIONS & SYSTEM ===== */
-    [data-testid="stSidebar"] .stButton > button {
-        min-height: 36px !important;
-        padding: 0.45rem 0.75rem !important;
-        font-size: 0.82rem !important;
-        border-radius: 9px !important;
-        background: rgba(255,255,255,0.07) !important;
-        color: #F8FBFF !important;
-        border: 1px solid rgba(255,255,255,0.14) !important;
-        box-shadow: none !important;
-    }
-
-    [data-testid="stSidebar"] .stButton > button:hover {
-        background: rgba(255,255,255,0.12) !important;
-        border-color: rgba(255,255,255,0.24) !important;
-        transform: translateY(-1px);
-    }
-
+    /* System Status Widget */
     .system-card {
-        margin-top: 0.65rem;
-        padding: 0.75rem 0.8rem;
-        border-radius: 12px;
-        background: rgba(255,255,255,0.055);
-        border: 1px solid rgba(255,255,255,0.10);
+        margin-top: 12px;
+        padding: 12px;
+        border-radius: 8px;
+        background: #1E293B;
+        border: 1px solid #334155;
     }
 
     .system-label {
         font-size: 10px;
-        font-weight: 800;
-        letter-spacing: 1.4px;
-        color: #9EBAD6;
-        margin-bottom: 7px;
+        font-weight: 700;
+        letter-spacing: 1.2px;
+        color: #64748B;
+        text-transform: uppercase;
+        margin-bottom: 6px;
     }
 
     .system-status-row {
         display: flex;
         align-items: center;
-        gap: 7px;
-        margin-bottom: 7px;
+        gap: 8px;
     }
 
     .status-dot {
         width: 8px;
         height: 8px;
         border-radius: 50%;
-        background: #35D07F;
-        box-shadow: 0 0 0 4px rgba(53,208,127,0.10);
-        display: inline-block;
+        background: #10B981;
+        box-shadow: 0 0 8px rgba(16, 185, 129, 0.5);
     }
 
     .system-status-text {
-        color: #E9FFF3;
+        color: #F1F5F9;
         font-size: 12px;
-        font-weight: 700;
+        font-weight: 600;
     }
 
     .system-name {
-        color: #FFFFFF;
-        font-size: 12px;
-        font-weight: 700;
-        margin-top: 2px;
-    }
-
-    .system-meta {
-        color: #AFC6DF;
+        color: #94A3B8;
         font-size: 11px;
-        margin-top: 2px;
-    }
-
-    [data-testid="stSidebar"] [data-testid="stVerticalBlock"] {
-        padding-bottom: 0.8rem !important;
+        margin-top: 4px;
     }
 
     footer {
@@ -466,7 +546,7 @@ st.markdown(
 )
 
 # =========================================================
-# DATA
+# DATA LOADER
 # =========================================================
 
 @st.cache_data
@@ -548,53 +628,99 @@ if "month_filter" not in st.session_state:
     st.session_state.month_filter = "All Months"
 
 # =========================================================
-# HELPERS
+# UI & PLOTLY HELPERS
 # =========================================================
 
-def modern_chart(fig, height=370):
+# Corporate Palette
+CORPORATE_PALETTE = ["#2563EB", "#0EA5E9", "#6366F1", "#8B5CF6", "#0284C7", "#3B82F6"]
+
+def render_kpi(label, value, accent="#2563EB", subtext=None):
+    subtext_html = f'<div class="kpi-subtext">{subtext}</div>' if subtext else ''
+    st.markdown(
+        f"""
+        <div class="kpi-card" style="border-left-color: {accent};">
+            <div class="kpi-label">{label}</div>
+            <div class="kpi-value">{value}</div>
+            {subtext_html}
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
+
+def modern_chart(fig, height=360, show_legend=True):
+    """Apply a deployment-safe corporate Plotly theme."""
     fig.update_layout(
         height=height,
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
+        paper_bgcolor="#FFFFFF",
+        plot_bgcolor="#FFFFFF",
         font=dict(
-            family="Inter, Segoe UI, sans-serif",
-            color="#475467",
+            family="Segoe UI, Arial, sans-serif",
+            color="#475569",
             size=12
         ),
-        title=dict(
-            font=dict(size=16, color="#172033"),
-            x=0.02,
-            xanchor="left"
-        ),
-        margin=dict(l=20, r=20, t=58, b=28),
-        legend=dict(
-            title=None,
-            orientation="h",
-            yanchor="bottom",
-            y=1.04,
-            xanchor="right",
-            x=1,
-            font=dict(size=10)
-        ),
+        margin=dict(l=18, r=18, t=54, b=56),
         hoverlabel=dict(
-            bgcolor="white",
+            bgcolor="#0F172A",
             font_size=12,
-            font_family="Inter"
-        )
+            font_color="#FFFFFF",
+            font_family="Segoe UI"
+        ),
+        colorway=CORPORATE_PALETTE,
+        showlegend=show_legend
     )
+
+    # Never create an empty title object that can render as 'undefined'
+    title_text = ""
+    try:
+        raw_title = fig.layout.title.text
+        if isinstance(raw_title, str):
+            title_text = raw_title.strip()
+    except Exception:
+        title_text = ""
+
+    if title_text:
+        fig.update_layout(
+            title=dict(
+                text=title_text,
+                font=dict(size=15, color="#0F172A", family="Segoe UI"),
+                x=0.02,
+                xanchor="left",
+                y=0.97,
+                yanchor="top"
+            )
+        )
+    else:
+        fig.update_layout(title_text="")
+
+    if show_legend:
+        fig.update_layout(
+            legend=dict(
+                title=None,
+                orientation="h",
+                yanchor="top",
+                y=-0.12,
+                xanchor="left",
+                x=0,
+                font=dict(size=11, color="#475569"),
+                bgcolor="rgba(0,0,0,0)"
+            )
+        )
 
     try:
         fig.update_xaxes(
             showgrid=False,
             zeroline=False,
-            linecolor="#D9E3EE",
-            tickfont=dict(color="#667085")
+            linecolor="#E2E8F0",
+            tickfont=dict(color="#64748B", size=11),
+            title_font=dict(color="#64748B", size=11)
         )
         fig.update_yaxes(
-            gridcolor="#EDF2F7",
+            gridcolor="#F1F5F9",
             zeroline=False,
-            linecolor="#D9E3EE",
-            tickfont=dict(color="#667085")
+            linecolor="#E2E8F0",
+            tickfont=dict(color="#64748B", size=11),
+            title_font=dict(color="#64748B", size=11)
         )
     except Exception:
         pass
@@ -604,22 +730,37 @@ def modern_chart(fig, height=370):
 
 def dashboard_header(title, subtitle):
     st.markdown(
-        '<div class="dashboard-label">STUDY SMART TUITION CENTRE</div>',
+        """
+        <div class="top-meta">
+            <span><strong>Study Smart Tuition Centre</strong></span>
+            <span>Management View</span>
+        </div>
+        """,
         unsafe_allow_html=True
     )
-    st.title(title)
     st.markdown(
-        f'<div class="dashboard-subtitle">{subtitle}</div>',
+        '<div class="dashboard-badge">STUDY SMART TUITION CENTRE</div>',
         unsafe_allow_html=True
     )
+    st.markdown(f'<div class="dashboard-title">{title}</div>', unsafe_allow_html=True)
+    st.markdown(f'<div class="dashboard-subtitle">{subtitle}</div>', unsafe_allow_html=True)
     st.markdown(
         f"""
         <div class="context-bar">
-            <strong>Branch:</strong> {selected_branch}
-            &nbsp;&nbsp;•&nbsp;&nbsp;
-            <strong>Subject:</strong> {selected_subject}
-            &nbsp;&nbsp;•&nbsp;&nbsp;
-            <strong>Month:</strong> {selected_month}
+            <div class="context-item">
+                <span class="context-label">Branch:</span>
+                <span class="context-value">{selected_branch}</span>
+            </div>
+            <span>•</span>
+            <div class="context-item">
+                <span class="context-label">Subject:</span>
+                <span class="context-value">{selected_subject}</span>
+            </div>
+            <span>•</span>
+            <div class="context-item">
+                <span class="context-label">Month:</span>
+                <span class="context-value">{selected_month}</span>
+            </div>
         </div>
         """,
         unsafe_allow_html=True
@@ -639,16 +780,13 @@ st.sidebar.markdown(
     """
     <div class="brand-wrap">
         <div class="brand-title">🎓 Study Smart</div>
-        <div class="brand-subtitle">MANAGEMENT PORTAL</div>
+        <div class="brand-subtitle">Management Portal</div>
     </div>
     """,
     unsafe_allow_html=True
 )
 
-st.sidebar.markdown(
-    '<div class="side-section">MENU</div>',
-    unsafe_allow_html=True
-)
+st.sidebar.markdown('<div class="side-section">NAVIGATION</div>', unsafe_allow_html=True)
 
 menu_options = [
     "Home",
@@ -673,12 +811,9 @@ selected_page = st.sidebar.radio(
 if selected_page != st.session_state.page:
     st.session_state.page = selected_page
 
-# Filters are useful on dashboards, not home
+# Filters display when navigating dashboards
 if st.session_state.page != "Home":
-    st.sidebar.markdown(
-        '<div class="side-section">FILTERS</div>',
-        unsafe_allow_html=True
-    )
+    st.sidebar.markdown('<div class="side-section">FILTERS</div>', unsafe_allow_html=True)
 
     branch_options = ["All Branches"] + sorted(
         branches["BranchName"].dropna().unique().tolist()
@@ -718,10 +853,7 @@ if st.session_state.page != "Home":
     )
     st.session_state.month_filter = selected_month
 
-    st.sidebar.markdown(
-        '<div class="side-section">ACTIONS</div>',
-        unsafe_allow_html=True
-    )
+    st.sidebar.markdown('<div class="side-section">ACTIONS</div>', unsafe_allow_html=True)
 
     if st.sidebar.button("↻ Reset Filters", use_container_width=True):
         st.session_state.branch_filter = "All Branches"
@@ -732,13 +864,12 @@ if st.session_state.page != "Home":
     st.sidebar.markdown(
         """
         <div class="system-card">
-            <div class="system-label">SYSTEM</div>
+            <div class="system-label">System</div>
             <div class="system-status-row">
                 <span class="status-dot"></span>
                 <span class="system-status-text">Connected</span>
             </div>
-            <div class="system-name">Study Smart BI v2.0</div>
-            <div class="system-meta">Data Warehouse</div>
+            <div class="system-name">Study Smart Management Portal</div>
         </div>
         """,
         unsafe_allow_html=True
@@ -750,7 +881,7 @@ else:
     selected_month = "All Months"
 
 # =========================================================
-# FILTER DATA
+# FILTER DATA ENGINE
 # =========================================================
 
 filtered_students = students.copy()
@@ -772,30 +903,14 @@ if selected_branch != "All Branches":
         "BranchID"
     ].iloc[0]
 
-    filtered_students = filtered_students[
-        filtered_students["BranchID"] == selected_branch_id
-    ]
-    filtered_tutors = filtered_tutors[
-        filtered_tutors["BranchID"] == selected_branch_id
-    ]
-    filtered_enrolments = filtered_enrolments[
-        filtered_enrolments["BranchID"] == selected_branch_id
-    ]
-    filtered_payments = filtered_payments[
-        filtered_payments["BranchID"] == selected_branch_id
-    ]
-    filtered_attendance = filtered_attendance[
-        filtered_attendance["BranchID"] == selected_branch_id
-    ]
-    filtered_scores = filtered_scores[
-        filtered_scores["BranchID"] == selected_branch_id
-    ]
-    filtered_inventory = filtered_inventory[
-        filtered_inventory["BranchID"] == selected_branch_id
-    ]
-    filtered_online = filtered_online[
-        filtered_online["BranchID"] == selected_branch_id
-    ]
+    filtered_students = filtered_students[filtered_students["BranchID"] == selected_branch_id]
+    filtered_tutors = filtered_tutors[filtered_tutors["BranchID"] == selected_branch_id]
+    filtered_enrolments = filtered_enrolments[filtered_enrolments["BranchID"] == selected_branch_id]
+    filtered_payments = filtered_payments[filtered_payments["BranchID"] == selected_branch_id]
+    filtered_attendance = filtered_attendance[filtered_attendance["BranchID"] == selected_branch_id]
+    filtered_scores = filtered_scores[filtered_scores["BranchID"] == selected_branch_id]
+    filtered_inventory = filtered_inventory[filtered_inventory["BranchID"] == selected_branch_id]
+    filtered_online = filtered_online[filtered_online["BranchID"] == selected_branch_id]
 
 if selected_subject != "All Subjects":
     selected_course_ids = courses.loc[
@@ -803,24 +918,12 @@ if selected_subject != "All Subjects":
         "CourseID"
     ].tolist()
 
-    filtered_courses = filtered_courses[
-        filtered_courses["CourseID"].isin(selected_course_ids)
-    ]
-    filtered_enrolments = filtered_enrolments[
-        filtered_enrolments["CourseID"].isin(selected_course_ids)
-    ]
-    filtered_payments = filtered_payments[
-        filtered_payments["CourseID"].isin(selected_course_ids)
-    ]
-    filtered_attendance = filtered_attendance[
-        filtered_attendance["CourseID"].isin(selected_course_ids)
-    ]
-    filtered_scores = filtered_scores[
-        filtered_scores["CourseID"].isin(selected_course_ids)
-    ]
-    filtered_online = filtered_online[
-        filtered_online["CourseID"].isin(selected_course_ids)
-    ]
+    filtered_courses = filtered_courses[filtered_courses["CourseID"].isin(selected_course_ids)]
+    filtered_enrolments = filtered_enrolments[filtered_enrolments["CourseID"].isin(selected_course_ids)]
+    filtered_payments = filtered_payments[filtered_payments["CourseID"].isin(selected_course_ids)]
+    filtered_attendance = filtered_attendance[filtered_attendance["CourseID"].isin(selected_course_ids)]
+    filtered_scores = filtered_scores[filtered_scores["CourseID"].isin(selected_course_ids)]
+    filtered_online = filtered_online[filtered_online["CourseID"].isin(selected_course_ids)]
 
 if selected_month != "All Months":
     filtered_payments = filtered_payments[
@@ -840,15 +943,11 @@ if selected_subject != "All Subjects" or selected_month != "All Months":
     valid_student_ids = filtered_enrolments["StudentID"].dropna().unique()
     valid_tutor_ids = filtered_enrolments["TutorID"].dropna().unique()
 
-    filtered_students = filtered_students[
-        filtered_students["StudentID"].isin(valid_student_ids)
-    ]
-    filtered_tutors = filtered_tutors[
-        filtered_tutors["TutorID"].isin(valid_tutor_ids)
-    ]
+    filtered_students = filtered_students[filtered_students["StudentID"].isin(valid_student_ids)]
+    filtered_tutors = filtered_tutors[filtered_tutors["TutorID"].isin(valid_tutor_ids)]
 
 # =========================================================
-# HOME
+# PAGE 1: HOME
 # =========================================================
 
 if st.session_state.page == "Home":
@@ -856,11 +955,10 @@ if st.session_state.page == "Home":
     st.markdown(
         """
         <div class="hero">
-            <div class="hero-kicker">STUDY SMART TUITION CENTRE</div>
-            <div class="hero-title">Empowering Students. Inspiring Excellence.</div>
+            <div class="hero-kicker">Study Smart Tuition Centre</div>
+            <div class="hero-title">Study Smart Management Portal</div>
             <div class="hero-sub">
-                Delivering quality tuition programmes through experienced educators,
-                structured learning and continuous student development across our branches.
+                Supporting quality education through clear visibility of academic, operational, financial and student performance across Study Smart Tuition Centre.
             </div>
         </div>
         """,
@@ -874,23 +972,59 @@ if st.session_state.page == "Home":
     total_tutors_home = tutors["TutorID"].nunique()
     total_courses_home = courses["CourseID"].nunique()
 
-    c1, c2, c3 = st.columns(3)
-    c1.metric("Total Students", f"{total_students_home:,}")
-    c2.metric("Total Revenue", f"RM {total_revenue_home:,.0f}")
-    c3.metric("Attendance Rate", f"{attendance_home:.1f}%")
+    c1, c2, c3, c4, c5, c6 = st.columns(6)
+    with c1:
+        render_kpi("Active Students", f"{total_students_home:,}", "#2563EB")
+    with c2:
+        render_kpi("Revenue", f"RM {total_revenue_home/1e3:,.1f}k", "#0EA5E9")
+    with c3:
+        render_kpi("Attendance", f"{attendance_home:.1f}%", "#10B981")
+    with c4:
+        render_kpi("Branches", f"{total_branches_home}", "#6366F1")
+    with c5:
+        render_kpi("Tutors", f"{total_tutors_home}", "#8B5CF6")
+    with c6:
+        render_kpi("Courses", f"{total_courses_home}", "#F59E0B")
 
-    c4, c5, c6 = st.columns(3)
-    c4.metric("Branches", f"{total_branches_home}")
-    c5.metric("Active Tutors", f"{total_tutors_home}")
-    c6.metric("Courses", f"{total_courses_home}")
+    st.markdown('<div class="home-section-title">About Study Smart</div>', unsafe_allow_html=True)
 
-    st.markdown(
-        '<div class="home-section-title">Stakeholder Dashboards</div>',
-        unsafe_allow_html=True
-    )
-    st.caption(
-        "Select the dashboard most relevant to your management responsibilities."
-    )
+    about_col, services_col = st.columns(2)
+
+    with about_col:
+        st.markdown(
+            """
+            <div class="role-card" style="border-top-color:#2563EB;">
+                <div>
+                    <div class="role-title">Who We Are</div>
+                    <div class="role-desc">
+                        Study Smart Tuition Centre is a multi-branch education provider committed to
+                        helping students strengthen academic foundations, improve learning confidence,
+                        and achieve consistent progress through structured tuition programmes.
+                    </div>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    with services_col:
+        st.markdown(
+            """
+            <div class="role-card" style="border-top-color:#10B981;">
+                <div>
+                    <div class="role-title">Our Services</div>
+                    <div class="role-desc">
+                        Physical tuition classes, online learning, exam preparation, homework support,
+                        student progress monitoring, and academic consultation.
+                    </div>
+                </div>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+    st.markdown('<div class="home-section-title">Management Dashboards</div>', unsafe_allow_html=True)
+
 
     r1c1, r1c2, r1c3 = st.columns(3)
 
@@ -898,118 +1032,127 @@ if st.session_state.page == "Home":
         st.markdown(
             """
             <div class="role-card">
-                <div class="role-icon">👔</div>
-                <div class="role-title">Executive Management</div>
-                <div class="role-desc">
-                    Organisation-wide KPIs, revenue, attendance, branch performance
-                    and course demand.
+                <div>
+                    <div class="role-icon">👔</div>
+                    <div class="role-title">Executive Management</div>
+                    <div class="role-desc">
+                        Macro organization KPIs, high-level revenue trends, overall attendance, and branch performance summaries.
+                    </div>
                 </div>
             </div>
             """,
             unsafe_allow_html=True
         )
-        if st.button("Open Executive Dashboard →", use_container_width=True):
+        st.write("")
+        if st.button("Open Executive View →", key="btn_exec", use_container_width=True):
             set_page("Executive Management")
 
     with r1c2:
         st.markdown(
             """
-            <div class="role-card">
-                <div class="role-icon">🎓</div>
-                <div class="role-title">Academic Manager</div>
-                <div class="role-desc">
-                    Academic results, attendance, tutor effectiveness,
-                    learning modes and student support.
+            <div class="role-card" style="border-top-color: #0EA5E9;">
+                <div>
+                    <div class="role-icon">🎓</div>
+                    <div class="role-title">Academic Manager</div>
+                    <div class="role-desc">
+                        Academic outcomes, exam distributions, tutor efficiency scores, and student intervention tracking.
+                    </div>
                 </div>
             </div>
             """,
             unsafe_allow_html=True
         )
-        if st.button("Open Academic Dashboard →", use_container_width=True):
+        st.write("")
+        if st.button("Open Academic View →", key="btn_acad", use_container_width=True):
             set_page("Academic Manager")
 
     with r1c3:
         st.markdown(
             """
-            <div class="role-card">
-                <div class="role-icon">💰</div>
-                <div class="role-title">Finance Manager</div>
-                <div class="role-desc">
-                    Revenue, fee collection, outstanding balances
-                    and branch-level financial performance.
+            <div class="role-card" style="border-top-color: #10B981;">
+                <div>
+                    <div class="role-icon">💰</div>
+                    <div class="role-title">Finance Manager</div>
+                    <div class="role-desc">
+                        Collection performance, fee aging analysis, outstanding balances, and branch financial health.
+                    </div>
                 </div>
             </div>
             """,
             unsafe_allow_html=True
         )
-        if st.button("Open Finance Dashboard →", use_container_width=True):
+        st.write("")
+        if st.button("Open Finance View →", key="btn_fin", use_container_width=True):
             set_page("Finance Manager")
 
+    st.write("")
     r2c1, r2c2, r2c3 = st.columns(3)
 
     with r2c1:
         st.markdown(
             """
-            <div class="role-card">
-                <div class="role-icon">🏢</div>
-                <div class="role-title">Branch Manager</div>
-                <div class="role-desc">
-                    Branch operations, course demand, tutor capacity,
-                    revenue and inventory status.
+            <div class="role-card" style="border-top-color: #6366F1;">
+                <div>
+                    <div class="role-icon">🏢</div>
+                    <div class="role-title">Branch Manager</div>
+                    <div class="role-desc">
+                        Location-specific operations, course enrollment demand, local inventory, and tutor allocation.
+                    </div>
                 </div>
             </div>
             """,
             unsafe_allow_html=True
         )
-        if st.button("Open Branch Dashboard →", use_container_width=True):
+        st.write("")
+        if st.button("Open Branch View →", key="btn_branch", use_container_width=True):
             set_page("Branch Manager")
 
     with r2c2:
         st.markdown(
             """
-            <div class="role-card">
-                <div class="role-icon">📈</div>
-                <div class="role-title">Marketing Manager</div>
-                <div class="role-desc">
-                    Campaign effectiveness, acquisition channels,
-                    conversion rate and acquisition cost.
+            <div class="role-card" style="border-top-color: #8B5CF6;">
+                <div>
+                    <div class="role-icon">📈</div>
+                    <div class="role-title">Marketing Manager</div>
+                    <div class="role-desc">
+                        Campaign conversion metrics, student acquisition costs (CAC), channel yields, and funnel efficiency.
+                    </div>
                 </div>
             </div>
             """,
             unsafe_allow_html=True
         )
-        if st.button("Open Marketing Dashboard →", use_container_width=True):
+        st.write("")
+        if st.button("Open Marketing View →", key="btn_mkt", use_container_width=True):
             set_page("Marketing Manager")
 
     with r2c3:
         st.markdown(
             """
-            <div class="role-card">
-                <div class="role-icon">🗄️</div>
-                <div class="role-title">Integrated Data Warehouse</div>
-                <div class="role-desc">
-                    Curated operational data supporting role-based BI analysis
-                    across all five management views.
+            <div class="role-card" style="border-top-color: #64748B;">
+                <div>
+                    <div class="role-icon">🗄️</div>
+                    <div class="role-title">Integrated Data</div>
+                    <div class="role-desc">
+                        Integrated operational data supporting consistent reporting and management visibility across Study Smart Tuition Centre.
+                    </div>
                 </div>
             </div>
             """,
             unsafe_allow_html=True
         )
-        st.button(
-            "Data Sources Connected ✓",
-            disabled=True,
-            use_container_width=True
-        )
+        st.write("")
+        st.button("System Operational ✓", disabled=True, use_container_width=True)
 
 # =========================================================
-# EXECUTIVE MANAGEMENT
+# PAGE 2: EXECUTIVE MANAGEMENT
 # =========================================================
 
 elif st.session_state.page == "Executive Management":
 
     dashboard_header(
-        "Executive Management Dashboard",
-        "Organisation-wide performance and strategic management overview"
+        "Executive Performance Overview",
+        "High-level enterprise summary and operational monitoring"
     )
 
     total_students = filtered_students["StudentID"].nunique()
@@ -1022,19 +1165,23 @@ elif st.session_state.page == "Executive Management":
     outstanding_fees = filtered_payments["OutstandingAmountRM"].sum()
     active_tutors = filtered_tutors["TutorID"].nunique()
 
-    c1, c2, c3 = st.columns(3)
-    c1.metric("Total Students", f"{total_students:,}")
-    c2.metric("Total Enrolments", f"{total_enrolments:,}")
-    c3.metric("Attendance Rate", f"{attendance_rate:.1f}%")
-
-    c4, c5, c6 = st.columns(3)
-    c4.metric("Total Revenue", f"RM {total_revenue:,.0f}")
-    c5.metric("Outstanding Fees", f"RM {outstanding_fees:,.0f}")
-    c6.metric("Active Tutors", f"{active_tutors:,}")
+    k1, k2, k3, k4, k5, k6 = st.columns(6)
+    with k1:
+        render_kpi("Students", f"{total_students:,}", "#2563EB")
+    with k2:
+        render_kpi("Enrolments", f"{total_enrolments:,}", "#0EA5E9")
+    with k3:
+        render_kpi("Attendance", f"{attendance_rate:.1f}%", "#10B981")
+    with k4:
+        render_kpi("Revenue", f"RM {total_revenue:,.0f}", "#2563EB")
+    with k5:
+        render_kpi("Outstanding", f"RM {outstanding_fees:,.0f}", "#EF4444")
+    with k6:
+        render_kpi("Tutor Staff", f"{active_tutors:,}", "#8B5CF6")
 
     st.markdown("---")
 
-    col1, col2 = st.columns([1.5, 1])
+    col1, col2 = st.columns([1.6, 1])
 
     with col1:
         rev = payments.copy()
@@ -1052,41 +1199,57 @@ elif st.session_state.page == "Executive Management":
             .reset_index()
         )
 
-        fig = px.line(
+        fig = px.area(
             revenue_monthly,
             x="Month",
             y="PaidAmountRM",
             markers=True,
-            title="Revenue Performance"
+            title="Revenue Trend"
         )
-        fig.update_layout(
-            xaxis_title="",
-            yaxis_title="Revenue (RM)",
-            hovermode="x unified"
+        fig.update_traces(
+            fillcolor="rgba(37, 99, 235, 0.12)",
+            line=dict(color="#2563EB", width=2.5)
         )
+        fig.update_layout(xaxis_title="", yaxis_title="Revenue (RM)", hovermode="x unified")
         fig = modern_chart(fig)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
     with col2:
+        st.markdown("#### Attendance Performance")
+        st.caption("Overall attendance benchmark for the selected view.")
+
         fig = go.Figure(
             go.Indicator(
                 mode="gauge+number",
                 value=attendance_rate,
-                number={"suffix": "%"},
-                title={"text": "Attendance Performance"},
+                number={"suffix": "%", "font": {"size": 28, "color": "#0F172A"}},
                 gauge={
-                    "axis": {"range": [0, 100]},
-                    "bar": {"color": "#2474D2"},
+                    "axis": {
+                        "range": [0, 100],
+                        "tickcolor": "#64748B",
+                        "tickfont": {"color": "#64748B"}
+                    },
+                    "bar": {"color": "#2563EB"},
                     "steps": [
-                        {"range": [0, 80], "color": "#F1F5F9"},
-                        {"range": [80, 90], "color": "#E2E8F0"},
-                        {"range": [90, 100], "color": "#DBEAFE"}
+                        {"range": [0, 75], "color": "#FEE2E2"},
+                        {"range": [75, 88], "color": "#FEF3C7"},
+                        {"range": [88, 100], "color": "#D1FAE5"}
                     ]
                 }
             )
         )
-        fig = modern_chart(fig, height=370)
-        st.plotly_chart(fig, use_container_width=True)
+        fig.update_layout(
+            height=330,
+            paper_bgcolor="#FFFFFF",
+            margin=dict(l=18, r=18, t=10, b=18),
+            showlegend=False,
+            font=dict(family="Segoe UI, Arial, sans-serif", color="#475569")
+        )
+        st.plotly_chart(
+            fig,
+            use_container_width=True,
+            config={"displayModeBar": False}
+        )
 
     col3, col4 = st.columns(2)
 
@@ -1103,10 +1266,11 @@ elif st.session_state.page == "Executive Management":
             x="Students",
             y="Branch",
             orientation="h",
-            title="Branch Performance Comparison"
+            title="Students by Branch",
+            color_discrete_sequence=["#2563EB"]
         )
         fig = modern_chart(fig)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
     with col4:
         course_popularity = (
@@ -1124,21 +1288,22 @@ elif st.session_state.page == "Executive Management":
             x="Students",
             y="Course",
             orientation="h",
-            title="Course Popularity"
+            title="Course Popularity",
+            color_discrete_sequence=["#0EA5E9"]
         )
         fig.update_layout(yaxis={"categoryorder": "total ascending"})
         fig = modern_chart(fig)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
 # =========================================================
-# ACADEMIC MANAGER
+# PAGE 3: ACADEMIC MANAGER
 # =========================================================
 
 elif st.session_state.page == "Academic Manager":
 
     dashboard_header(
-        "Academic Manager Dashboard",
-        "Academic performance, tutor effectiveness and student engagement"
+        "Academic Performance Centre",
+        "Monitoring student outcomes, assessment scoring, and faculty performance"
     )
 
     avg_score = filtered_scores["Score"].mean() if not filtered_scores.empty else 0
@@ -1149,11 +1314,15 @@ elif st.session_state.page == "Academic Manager":
     active_courses = filtered_enrolments["CourseID"].nunique()
     active_tutors = filtered_tutors["TutorID"].nunique()
 
-    c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Average Academic Score", f"{avg_score:.1f}%")
-    c2.metric("Attendance Rate", f"{attendance_rate:.1f}%")
-    c3.metric("Active Courses", f"{active_courses}")
-    c4.metric("Active Tutors", f"{active_tutors}")
+    k1, k2, k3, k4 = st.columns(4)
+    with k1:
+        render_kpi("Average Exam Score", f"{avg_score:.1f}%", "#2563EB")
+    with k2:
+        render_kpi("Attendance Rate", f"{attendance_rate:.1f}%", "#10B981")
+    with k3:
+        render_kpi("Courses", f"{active_courses}", "#0EA5E9")
+    with k4:
+        render_kpi("Active Tutors", f"{active_tutors}", "#8B5CF6")
 
     st.markdown("---")
 
@@ -1173,11 +1342,12 @@ elif st.session_state.page == "Academic Manager":
             x="Subject",
             y="Score",
             text_auto=".1f",
-            title="Academic Performance by Subject"
+            title="Academic Performance by Subject",
+            color_discrete_sequence=["#2563EB"]
         )
         fig.update_yaxes(range=[0, 100])
         fig = modern_chart(fig)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
     with col2:
         tutor_perf = (
@@ -1194,12 +1364,13 @@ elif st.session_state.page == "Academic Manager":
             y="Tutor",
             orientation="h",
             title="Tutor Performance",
-            text="Score"
+            text="Score",
+            color_discrete_sequence=["#6366F1"]
         )
         fig.update_xaxes(range=[0, 100])
         fig.update_traces(texttemplate="%{text:.1f}", textposition="outside")
         fig = modern_chart(fig)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
     col3, col4 = st.columns(2)
 
@@ -1224,11 +1395,12 @@ elif st.session_state.page == "Academic Manager":
             x="Month",
             y="AttendanceRate",
             markers=True,
-            title="Attendance Trend"
+            title="Attendance Trend",
+            color_discrete_sequence=["#10B981"]
         )
         fig.update_yaxes(range=[70, 100], ticksuffix="%")
         fig = modern_chart(fig)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
     with col4:
         learning_mode = (
@@ -1237,17 +1409,46 @@ elif st.session_state.page == "Academic Manager":
             .reset_index(name="Sessions")
         )
 
+        st.markdown("#### Learning Delivery Mode")
+        st.caption("Distribution of physical and online learning sessions.")
+
         fig = px.pie(
             learning_mode,
             names="Mode",
             values="Sessions",
-            hole=0.55,
-            title="Learning Mode Distribution"
+            hole=0.62,
+            color_discrete_sequence=["#2563EB", "#0EA5E9"]
         )
-        fig = modern_chart(fig)
-        st.plotly_chart(fig, use_container_width=True)
 
-    with st.expander("🔎 Drill Down: Students Requiring Academic Support"):
+        fig = modern_chart(fig, height=360)
+        fig.update_layout(
+            title_text="",
+            margin=dict(l=10, r=10, t=12, b=76),
+            legend=dict(
+                title=None,
+                orientation="h",
+                yanchor="top",
+                y=-0.08,
+                xanchor="center",
+                x=0.5,
+                font=dict(size=11, color="#475569"),
+                bgcolor="rgba(255,255,255,0)"
+            )
+        )
+        fig.update_traces(
+            textposition="inside",
+            textinfo="percent",
+            textfont=dict(color="#0F172A", size=12),
+            hovertemplate="<b>%{label}</b><br>Sessions: %{value}<br>Share: %{percent}<extra></extra>"
+        )
+
+        st.plotly_chart(
+            fig,
+            use_container_width=True,
+            config={"displayModeBar": False}
+        )
+
+    with st.expander("🔎 Academic Support Needs (Scores Below 60%)"):
         low_scores = filtered_scores[filtered_scores["Score"] < 60].copy()
         low_scores = low_scores.merge(
             students[["StudentID", "StudentName", "Level"]],
@@ -1264,14 +1465,14 @@ elif st.session_state.page == "Academic Manager":
         )
 
 # =========================================================
-# FINANCE MANAGER
+# PAGE 4: FINANCE MANAGER
 # =========================================================
 
 elif st.session_state.page == "Finance Manager":
 
     dashboard_header(
-        "Finance Manager Dashboard",
-        "Revenue, fee collection and financial performance"
+        "Financial Performance Centre",
+        "Revenue tracking, receivables aging, and billing efficiency"
     )
 
     net_billed = (
@@ -1282,11 +1483,15 @@ elif st.session_state.page == "Finance Manager":
     outstanding = filtered_payments["OutstandingAmountRM"].sum()
     collection_rate = collected / net_billed * 100 if net_billed > 0 else 0
 
-    c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Net Billed", f"RM {net_billed:,.0f}")
-    c2.metric("Collected", f"RM {collected:,.0f}")
-    c3.metric("Outstanding", f"RM {outstanding:,.0f}")
-    c4.metric("Collection Rate", f"{collection_rate:.1f}%")
+    k1, k2, k3, k4 = st.columns(4)
+    with k1:
+        render_kpi("Net Billed Amount", f"RM {net_billed:,.0f}", "#2563EB")
+    with k2:
+        render_kpi("Total Revenue Collected", f"RM {collected:,.0f}", "#10B981")
+    with k3:
+        render_kpi("Outstanding Receivables", f"RM {outstanding:,.0f}", "#EF4444")
+    with k4:
+        render_kpi("Collection Rate", f"{collection_rate:.1f}%", "#0EA5E9")
 
     st.markdown("---")
 
@@ -1311,15 +1516,53 @@ elif st.session_state.page == "Finance Manager":
             .reset_index()
         )
 
-        fig = px.line(
+        st.markdown("#### Monthly Cash Collection")
+        st.caption("Collected fees compared with outstanding balances by month.")
+        st.markdown(
+            """
+            <div class="finance-legend">
+                <span class="finance-legend-item">
+                    <span class="finance-legend-dot collected"></span>Collected
+                </span>
+                <span class="finance-legend-item">
+                    <span class="finance-legend-dot outstanding"></span>Outstanding
+                </span>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
+        fig = px.bar(
             monthly_finance,
             x="Month",
             y=["Collected", "Outstanding"],
-            markers=True,
-            title="Collection vs Outstanding Trend"
+            barmode="group",
+            color_discrete_sequence=["#10B981", "#EF4444"]
         )
-        fig = modern_chart(fig)
-        st.plotly_chart(fig, use_container_width=True)
+
+        fig = modern_chart(fig, height=340, show_legend=False)
+        fig.update_layout(
+            title_text="",
+            margin=dict(l=18, r=18, t=8, b=45),
+            showlegend=False,
+            xaxis_title="Month",
+            yaxis_title="Amount (RM)"
+        )
+        fig.update_xaxes(
+            tickfont=dict(color="#475569", size=11),
+            title_font=dict(color="#475569", size=12)
+        )
+        fig.update_yaxes(
+            tickfont=dict(color="#475569", size=11),
+            title_font=dict(color="#475569", size=12),
+            gridcolor="#E2E8F0"
+        )
+
+        st.plotly_chart(
+            fig,
+            use_container_width=True,
+            config={"displayModeBar": False}
+        )
 
     with col2:
         payment_status = (
@@ -1328,15 +1571,51 @@ elif st.session_state.page == "Finance Manager":
             .reset_index(name="Transactions")
         )
 
+        st.markdown("#### Payment Settlement Status")
+        st.caption("Distribution of paid, outstanding and overdue payment records.")
+        st.markdown(
+            """
+            <div class="finance-legend">
+                <span class="finance-legend-item">
+                    <span class="finance-legend-dot paid"></span>Paid
+                </span>
+                <span class="finance-legend-item">
+                    <span class="finance-legend-dot overdue"></span>Overdue
+                </span>
+                <span class="finance-legend-item">
+                    <span class="finance-legend-dot outstanding"></span>Outstanding
+                </span>
+            </div>
+            """,
+            unsafe_allow_html=True
+        )
+
         fig = px.pie(
             payment_status,
             names="PaymentStatus",
             values="Transactions",
-            hole=0.55,
-            title="Payment Status Distribution"
+            hole=0.62,
+            color_discrete_sequence=["#10B981", "#F59E0B", "#EF4444"]
         )
-        fig = modern_chart(fig)
-        st.plotly_chart(fig, use_container_width=True)
+
+        fig = modern_chart(fig, height=340, show_legend=False)
+        fig.update_layout(
+            title_text="",
+            margin=dict(l=10, r=10, t=4, b=10),
+            showlegend=False
+        )
+        fig.update_traces(
+            textposition="inside",
+            textinfo="percent",
+            textfont=dict(color="#0F172A", size=12),
+            hovertemplate="<b>%{label}</b><br>Transactions: %{value}<br>Share: %{percent}<extra></extra>"
+        )
+
+        st.plotly_chart(
+            fig,
+            use_container_width=True,
+            config={"displayModeBar": False}
+        )
 
     finance_branch = (
         payments.groupby("BranchID")
@@ -1348,17 +1627,55 @@ elif st.session_state.page == "Finance Manager":
     )
     finance_branch["Branch"] = finance_branch["BranchID"].map(branch_map)
 
+    st.markdown("#### Financial Performance by Branch")
+    st.caption("Compare collected revenue and outstanding balances across branches.")
+    st.markdown(
+        """
+        <div class="finance-legend">
+            <span class="finance-legend-item">
+                <span class="finance-legend-dot revenue"></span>Revenue
+            </span>
+            <span class="finance-legend-item">
+                <span class="finance-legend-dot branch-outstanding"></span>Outstanding
+            </span>
+        </div>
+        """,
+        unsafe_allow_html=True
+    )
+
     fig = px.bar(
         finance_branch,
         x="Branch",
         y=["Revenue", "Outstanding"],
         barmode="group",
-        title="Financial Performance by Branch"
+        color_discrete_sequence=["#2563EB", "#F59E0B"]
     )
-    fig = modern_chart(fig, height=410)
-    st.plotly_chart(fig, use_container_width=True)
 
-    with st.expander("🔎 Drill Down: Outstanding Payments"):
+    fig = modern_chart(fig, height=390, show_legend=False)
+    fig.update_layout(
+        title_text="",
+        margin=dict(l=18, r=18, t=8, b=52),
+        showlegend=False,
+        xaxis_title="Branch",
+        yaxis_title="Amount (RM)"
+    )
+    fig.update_xaxes(
+        tickfont=dict(color="#475569", size=11),
+        title_font=dict(color="#475569", size=12)
+    )
+    fig.update_yaxes(
+        tickfont=dict(color="#475569", size=11),
+        title_font=dict(color="#475569", size=12),
+        gridcolor="#E2E8F0"
+    )
+
+    st.plotly_chart(
+        fig,
+        use_container_width=True,
+        config={"displayModeBar": False}
+    )
+
+    with st.expander("🔎 Outstanding Receivables Detail Register"):
         outstanding_records = (
             filtered_payments[
                 filtered_payments["OutstandingAmountRM"] > 0
@@ -1386,20 +1703,18 @@ elif st.session_state.page == "Finance Manager":
         )
 
 # =========================================================
-# BRANCH MANAGER
+# PAGE 5: BRANCH MANAGER
 # =========================================================
 
 elif st.session_state.page == "Branch Manager":
 
     dashboard_header(
-        "Branch Manager Dashboard",
-        "Branch-level operational performance and resource monitoring"
+        "Branch Operations Centre",
+        "Branch performance, course utilization, and resource readiness"
     )
 
     if selected_branch == "All Branches":
-        st.info(
-            "Select a specific branch from the sidebar for detailed branch-level analysis."
-        )
+        st.info("💡 Select a specific branch in the sidebar filters for detailed local operational analysis.")
 
     branch_students = filtered_students["StudentID"].nunique()
     branch_tutors = filtered_tutors["TutorID"].nunique()
@@ -1409,11 +1724,15 @@ elif st.session_state.page == "Branch Manager":
     )
     branch_revenue = filtered_payments["PaidAmountRM"].sum()
 
-    c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Students", f"{branch_students:,}")
-    c2.metric("Tutors", f"{branch_tutors:,}")
-    c3.metric("Attendance", f"{branch_attendance:.1f}%")
-    c4.metric("Revenue", f"RM {branch_revenue:,.0f}")
+    k1, k2, k3, k4 = st.columns(4)
+    with k1:
+        render_kpi("Branch Students", f"{branch_students:,}", "#2563EB")
+    with k2:
+        render_kpi("Active Tutors", f"{branch_tutors:,}", "#8B5CF6")
+    with k3:
+        render_kpi("Attendance Rate", f"{branch_attendance:.1f}%", "#10B981")
+    with k4:
+        render_kpi("Branch Revenue", f"RM {branch_revenue:,.0f}", "#0EA5E9")
 
     st.markdown("---")
 
@@ -1435,10 +1754,11 @@ elif st.session_state.page == "Branch Manager":
             x="Students",
             y="Course",
             orientation="h",
-            title="Course Demand"
+            title="Course Demand",
+            color_discrete_sequence=["#2563EB"]
         )
         fig = modern_chart(fig)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
     with col2:
         fig = px.bar(
@@ -1447,10 +1767,10 @@ elif st.session_state.page == "Branch Manager":
             y="ClosingQty",
             color="StockStatus",
             title="Inventory Status",
-            hover_data=["ReorderLevel"]
+            color_discrete_sequence=["#10B981", "#EF4444", "#F59E0B"]
         )
         fig = modern_chart(fig)
-        st.plotly_chart(fig, use_container_width=True)
+        st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
     branch_comparison = (
         enrolments.groupby("BranchID")["StudentID"]
@@ -1463,20 +1783,21 @@ elif st.session_state.page == "Branch Manager":
         branch_comparison,
         x="Branch",
         y="Students",
-        title="Student Distribution Across Branches"
+        title="Student Distribution Across Branches",
+        color_discrete_sequence=["#0EA5E9"]
     )
-    fig = modern_chart(fig, height=390)
-    st.plotly_chart(fig, use_container_width=True)
+    fig = modern_chart(fig, height=380)
+    st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
 # =========================================================
-# MARKETING MANAGER
+# PAGE 6: MARKETING MANAGER
 # =========================================================
 
 elif st.session_state.page == "Marketing Manager":
 
     dashboard_header(
-        "Marketing Manager Dashboard",
-        "Campaign effectiveness, acquisition efficiency and student growth"
+        "Marketing Performance Centre",
+        "Campaign efficiency, student acquisition costs, and channel returns"
     )
 
     total_leads = marketing["Leads"].sum()
@@ -1491,20 +1812,21 @@ elif st.session_state.page == "Marketing Manager":
         if marketing_enrolments > 0 else 0
     )
 
-    c1, c2, c3, c4 = st.columns(4)
-    c1.metric("Marketing Leads", f"{total_leads:,}")
-    c2.metric("Campaign Enrolments", f"{marketing_enrolments:,}")
-    c3.metric("Conversion Rate", f"{conversion_rate:.1f}%")
-    c4.metric("Average CPA", f"RM {average_cpa:,.0f}")
+    k1, k2, k3, k4 = st.columns(4)
+    with k1:
+        render_kpi("Total Marketing Leads", f"{total_leads:,}", "#2563EB")
+    with k2:
+        render_kpi("Conversions", f"{marketing_enrolments:,}", "#10B981")
+    with k3:
+        render_kpi("Conversion Rate", f"{conversion_rate:.1f}%", "#0EA5E9")
+    with k4:
+        render_kpi("Avg Cost / Acquisition", f"RM {average_cpa:,.0f}", "#8B5CF6")
 
     st.markdown("---")
 
-    col1, col2 = st.columns([1.05, 0.95])
+    col1, col2 = st.columns([1.1, 0.9])
 
     with col1:
-        st.markdown("#### Enrolments by Campaign")
-        st.caption("Campaigns ranked by student enrolment outcomes.")
-
         campaign_data = marketing.sort_values("Enrolments", ascending=True)
 
         fig = px.bar(
@@ -1513,27 +1835,12 @@ elif st.session_state.page == "Marketing Manager":
             y="CampaignName",
             orientation="h",
             color="Channel",
-            hover_name="CampaignName",
-            hover_data={
-                "Channel": True,
-                "SpendRM": ":,.0f",
-                "ConversionRatePct": ":.1f",
-                "CostPerAcquisitionRM": ":,.0f",
-                "CampaignName": False
-            }
+            title="Enrolments by Campaign",
+            color_discrete_sequence=CORPORATE_PALETTE
         )
-        fig.update_layout(
-            showlegend=False,
-            height=405,
-            paper_bgcolor="rgba(0,0,0,0)",
-            plot_bgcolor="rgba(0,0,0,0)",
-            margin=dict(l=10, r=12, t=12, b=20),
-            xaxis_title="Enrolments",
-            yaxis_title="",
-            font=dict(family="Inter, Segoe UI, sans-serif", color="#475467", size=12)
-        )
-        fig.update_xaxes(showgrid=True, gridcolor="#EDF2F7", zeroline=False)
-        fig.update_yaxes(showgrid=False, categoryorder="total ascending")
+        fig.update_yaxes(categoryorder="total ascending")
+        fig = modern_chart(fig, height=380)
+        fig.update_layout(showlegend=False)
         st.plotly_chart(
             fig,
             use_container_width=True,
@@ -1541,43 +1848,21 @@ elif st.session_state.page == "Marketing Manager":
         )
 
     with col2:
-        st.markdown("#### Campaign Spend vs Enrolments")
-        st.caption("Evaluate whether higher campaign spending produces stronger enrolment.")
-
         fig = px.scatter(
             marketing,
             x="SpendRM",
             y="Enrolments",
             size="Leads",
             color="Channel",
+            title="Campaign Spend vs Enrolments",
             hover_name="CampaignName",
-            hover_data={
-                "SpendRM": ":,.0f",
-                "Enrolments": True,
-                "Leads": True,
-                "ConversionRatePct": ":.1f",
-                "CostPerAcquisitionRM": ":,.0f",
-                "Channel": True
-            }
+            color_discrete_sequence=CORPORATE_PALETTE
         )
         fig.update_traces(
-            marker=dict(
-                line=dict(width=1.4, color="rgba(255,255,255,0.90)"),
-                opacity=0.88
-            )
+            marker=dict(line=dict(width=1, color="#FFFFFF"), opacity=0.9)
         )
-        fig.update_layout(
-            showlegend=False,
-            height=405,
-            paper_bgcolor="rgba(0,0,0,0)",
-            plot_bgcolor="rgba(0,0,0,0)",
-            margin=dict(l=10, r=12, t=12, b=20),
-            xaxis_title="Spend (RM)",
-            yaxis_title="Enrolments",
-            font=dict(family="Inter, Segoe UI, sans-serif", color="#475467", size=12)
-        )
-        fig.update_xaxes(showgrid=False, zeroline=False)
-        fig.update_yaxes(showgrid=True, gridcolor="#EDF2F7", zeroline=False)
+        fig = modern_chart(fig, height=380)
+        fig.update_layout(showlegend=False)
         st.plotly_chart(
             fig,
             use_container_width=True,
@@ -1585,7 +1870,6 @@ elif st.session_state.page == "Marketing Manager":
         )
 
     st.markdown("#### Student Acquisition Sources")
-    st.caption("Primary channels through which students discovered Study Smart.")
 
     acquisition = (
         students.groupby("AcquisitionSource")
@@ -1597,44 +1881,35 @@ elif st.session_state.page == "Marketing Manager":
     fig = px.bar(
         acquisition,
         x="AcquisitionSource",
-        y="Students"
+        y="Students",
+        color_discrete_sequence=["#2563EB"]
     )
-    fig.update_layout(
-        showlegend=False,
-        height=350,
-        paper_bgcolor="rgba(0,0,0,0)",
-        plot_bgcolor="rgba(0,0,0,0)",
-        margin=dict(l=10, r=12, t=12, b=20),
-        xaxis_title="Acquisition Source",
-        yaxis_title="Students",
-        font=dict(family="Inter, Segoe UI, sans-serif", color="#475467", size=12)
-    )
-    fig.update_xaxes(showgrid=False, zeroline=False)
-    fig.update_yaxes(showgrid=True, gridcolor="#EDF2F7", zeroline=False)
-    st.plotly_chart(
-        fig,
-        use_container_width=True,
-        config={"displayModeBar": False}
-    )
+    fig = modern_chart(fig, height=340)
+    st.plotly_chart(fig, use_container_width=True, config={"displayModeBar": False})
 
 # =========================================================
-# DOWNLOAD + FOOTER
+# DATA EXPORT & FOOTER
 # =========================================================
 
 if st.session_state.page != "Home":
     st.markdown("---")
-    st.markdown("### Download Filtered Data")
+    c_left, c_right = st.columns([3, 1])
 
-    csv_data = filtered_enrolments.to_csv(index=False).encode("utf-8")
+    with c_left:
+        st.markdown("### 📥 Export Analytical Dataset")
+        st.caption("Download the currently filtered dataset in CSV format for executive reporting.")
 
-    st.download_button(
-        label="⬇ Download Filtered Enrolment Data",
-        data=csv_data,
-        file_name="StudySmart_Filtered_Enrolments.csv",
-        mime="text/csv"
-    )
+    with c_right:
+        csv_data = filtered_enrolments.to_csv(index=False).encode("utf-8")
+        st.download_button(
+            label="Download CSV Dataset",
+            data=csv_data,
+            file_name="StudySmart_Filtered_Enrolments.csv",
+            mime="text/csv",
+            use_container_width=True
+        )
 
+st.write("")
 st.caption(
-    "Study Smart Tuition Centre • Management Portal "
-    "• Synthetic data for academic demonstration"
+    "Study Smart Tuition Centre • Management Portal"
 )
